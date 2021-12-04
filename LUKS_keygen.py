@@ -124,6 +124,10 @@ print("Moving crypttab back...")
 subprocess.run(["sudo", "mv", curr_dir + "/crypttab", crypttab_dir])
 
 
-# Done!
+"""
+Done!
+"""
 print("Done!\n")
-print("MAKE SURE TO CHECK YOUR CRYPTTAB FILE (/etc/crypttab)")
+print("""BEFORE REBOOTING, PLEASE CHECK THAT: 
+    Crypttab file has been properly edited (/etc/crypttab)
+    Keyfile exists (/keyfile)""")
