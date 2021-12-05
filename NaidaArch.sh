@@ -3,7 +3,7 @@
 read -t 60 -p 'Welcome! Please wait 60 seconds for lingering tasks (time set, reflector, graphical interface...) to complete. Press enter to skip.'
 
 status=$?
-cmd="bash 0-preinstall.sh"
+cmd="bash 0-arch_installer.sh"
 $cmd
 status=$? && [ $status -eq 0 ] || exit
 
