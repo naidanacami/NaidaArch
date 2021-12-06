@@ -116,3 +116,4 @@
 
 # Other
 'grub-customizer' # gui to customize grub
+'dialog'
