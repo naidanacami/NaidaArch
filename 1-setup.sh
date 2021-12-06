@@ -22,6 +22,12 @@ if [[  $TOTALMEM -gt 8000000 ]]; then
 	sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
 fi
 
+
+echo "-------------------------------------------------------------------------"
+echo "--                    Installing kernel and headers                    --"
+echo "-------------------------------------------------------------------------"
+pacman -S --noconfirm --needed linux linux-lts linux-headers linux-lts-headers
+
 echo "-------------------------------------------------------------------------"
 echo "--               Setup Language to US and set locale                   --"
 echo "-------------------------------------------------------------------------"

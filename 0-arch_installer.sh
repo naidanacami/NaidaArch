@@ -23,16 +23,9 @@ echo -ne "
 █   ██   █             █    █   ▀             ▀   
         ▀             ▀    ▀                     
 -------------------------------------------------
-               Automated installer               
+--             Automated installer             --
 -------------------------------------------------
 "
-
-
-# Misc Setup
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-timedatectl set-ntp true
-pacman -S --noconfirm terminus-font
-setfont ter-v22b
 
 
 echo -ne "
@@ -40,7 +33,15 @@ echo -ne "
 --                       Installing Prerequisites                      -- 
 -------------------------------------------------------------------------
 "
-pacman -S --noconfirm gptfdisk cryptsetup
+pacman -Sy --noconfirm
+pacman -S --noconfirm --needed gptfdisk cryptsetup grub
+
+
+# Misc Setup
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+timedatectl set-ntp true
+pacman -S --noconfirm terminus-font
+setfont ter-v22b
 
 
 echo -ne "
@@ -59,7 +60,7 @@ read luks_password
 echo "Please reenter LUKS password"
 read luks_password_recheck
 
-if [[ "$luks_password" != "$luks_password_recheck" ]]
+if [[ "$luks_password" != "$luks_password_recheck" ]]; then
     echo "ERROR: Passwords do not match!"
     exit 1
 fi
@@ -83,7 +84,7 @@ case $formatdisk in
         sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
         sgdisk -n 2::+550M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${disk} # partition 2 (UEFI Boot Partition)
         sgdisk -n 3::+${rootsize}G --typecode=3:8300 --change-name=3:'ROOT' ${disk} # partition 3 (Root)
-        sgdisk -n 3::-0 --typecode=3:8300 --change-name=4:'HOME' ${disk} # partition 4 (Home), default start, remaining
+        sgdisk -n 4::-0 --typecode=4:8300 --change-name=4:'HOME' ${disk} # partition 4 (Home), default start, remaining
         if [[ ! -d "/sys/firmware/efi" ]]; then
             sgdisk -A 1:set:2 ${disk}
         fi
@@ -107,7 +108,7 @@ case $formatdisk in
             mkfs.ext4 -L HOME /dev/mapper/HOME
 
         else
-            mkfs.vfat -F32 -n "EFIBOOT" ${disk}p2                                               # EFIBOOT
+            mkfs.vfat -F32 -n "EFIBOOT" ${disk}2                                               # EFIBOOT
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}3 -                # ROOT
@@ -178,7 +179,7 @@ echo "--                      GRUB Bootloader Install                        --"
 echo "-------------------------------------------------------------------------"
 if [[ ! -d "/sys/firmware/efi" ]]; then
    echo "Detected BIOS"
-   grub-install --boot-directory=/mnt/boot ${1}
+   grub-install --boot-directory=/mnt/boot ${disk}
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
