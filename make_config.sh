@@ -2,7 +2,7 @@
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Read config file, error if it exists
-#configFileName=${HOME}/ArchTitus/install.conf
+#configFileName=${HOME}/NaidaArch/install.conf
 configFileName=$SCRIPT_DIR/install.conf
 if [ -e "$configFileName" ]; then
 	echo "Configuration file install.conf already exists...  Cannot continue."
@@ -28,19 +28,19 @@ echo -ne "
     echo -e " provide default package list for Arch and ARU you can modify.           "
     echo -e "-------------------------------------------------------------------------"
     echo ""
-    lsblk
-    echo ""
-    echo "Above drive breakdown is from THIS MACHINE you are running this make config "
-    echo "script on and MIGHT NOT BE THE SAME AS THE MACHINE YOU INTEND TO INSTALL TO "
-    echo "Be Careful!"
-    echo ""
-    echo "Please enter disk to format: (example /dev/sda)"
-    read disk
-    disk="${disk,,}"
-    if [[ "${disk}" != *"/dev/"* ]]; then
-        disk="/dev/${disk}"
-    fi
-    echo "disk=$disk" >> $configFileName
+    # lsblk
+    # echo ""
+    # echo "Above drive breakdown is from THIS MACHINE you are running this make config "
+    # echo "script on and MIGHT NOT BE THE SAME AS THE MACHINE YOU INTEND TO INSTALL TO "
+    # echo "Be Careful!"
+    # echo ""
+    # echo "Please enter disk to format: (example /dev/sda)"
+    # read disk
+    # disk="${disk,,}"
+    # if [[ "${disk}" != *"/dev/"* ]]; then
+    #     disk="/dev/${disk}"
+    # fi
+    # echo "disk=$disk" >> $configFileName
 
 
 

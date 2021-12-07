@@ -10,10 +10,10 @@ cmd="bash 0-arch_installer.sh"
 $cmd
 status=$? && [ $status -eq 0 ] || exit
 
-arch-chroot /mnt /root/ArchTitus/1-setup.sh
-source /mnt/root/ArchTitus/install.conf #read config file
-arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/ArchTitus/2-user.sh
-arch-chroot /mnt /root/ArchTitus/3-post-setup.sh
+arch-chroot /mnt /bin/bash /root/NaidaArch/1-setup.sh
+source /mnt/root/NaidaArch/install.conf #read config file
+arch-chroot /mnt /bin/bash /usr/bin/runuser -u $username -- /home/$username/NaidaArch/2-user.sh
+arch-chroot /mnt /bin/bash /root/NaidaArch/3-post-setup.sh
 
 echo -ne "
     ▄   ██   ▄█ ██▄   ██   ██   █▄▄▄▄ ▄█▄     ▄  █ 

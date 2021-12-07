@@ -55,10 +55,6 @@ read disk
 disk="${disk,,}"
 echo "Please enter desired root (/) directory size (in GiB)"
 read rootsize
-echo "Please enter LUKS password"
-read luks_password
-echo "Please reenter LUKS password"
-read luks_password_recheck
 
 while true; do
     read -s -p "Please enter LUKS password: " luks_password
@@ -100,46 +96,34 @@ case $formatdisk in
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p3 -                # ROOT
-	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
             echo -n "${luks_password}" | cryptsetup open ${disk}p3 CRYPTROOT -
-	        read -p "PAUSED... " paseusuussssss
         # now format that container
             mkfs.ext4 -L ROOT /dev/mapper/CRYPTROOT
-	        read -p "PAUSED... " paseusuussssss
             
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p4 -                # HOME
-	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
             echo -n "${luks_password}" | cryptsetup open ${disk}p4 CRYPTHOME -
-	        read -p "PAUSED... " paseusuussssss
         # now format that container
             mkfs.ext4 -L HOME /dev/mapper/CRYPTHOME
-	        read -p "PAUSED... " paseusuussssss
 
         else
             mkfs.vfat -F32 -n "EFIBOOT" ${disk}2                                               # EFIBOOT
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}3 -                # ROOT
-	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
             echo -n "${luks_password}" | cryptsetup open ${disk}3 ROOT -
-	        read -p "PAUSED... " paseusuussssss
         # now format that container
             mkfs.ext4 -L ROOT /dev/mapper/ROOT
-	        read -p "PAUSED... " paseusuussssss
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}4 -                # HOME
-	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
             echo -n "${luks_password}" | cryptsetup open ${disk}4 HOME -
-	        read -p "PAUSED... " paseusuussssss
         # now format that container
             mkfs.ext4 -L HOME /dev/mapper/HOME
-	        read -p "PAUSED... " paseusuussssss
 
         fi
         echo "Mounting Filesystems..."
@@ -188,7 +172,7 @@ echo "-------------------------------------------------------------------------"
 pacstrap /mnt linux base sudo networkmanager iwd --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 #echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
-cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
+cp -R ${SCRIPT_DIR} /mnt/root/NaidaArch
 cp /mnt/etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist.backup
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist	    
 echo "-------------------------------------------------------------------------"

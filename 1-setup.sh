@@ -133,7 +133,7 @@ echo "-------------------------------------------------------------------------"
 echo "--                            Setup User                               --"
 echo "-------------------------------------------------------------------------"
 # Read config file, if it exists
-configFileName=${HOME}/ArchTitus/install.conf
+configFileName=${HOME}/NaidaArch/install.conf
 if [ -e "$configFileName" ]; then
 	echo "Using configuration file $configFileName."
 	. $configFileName
@@ -185,11 +185,11 @@ cat <<EOF > /etc/hosts
 EOF
 
 # Copy this script to new user home directory
-cp -R /root/ArchTitus /home/$username/
-chown -R $username: /home/$username/ArchTitus
+cp -R /root/NaidaArch /home/$username/
+chown -R $username: /home/$username/NaidaArch
 
 # Add sudo no password rights
 # sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers				# nopass
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers				# pass
 
-echo "ready for 'arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/ArchTitus/2-user.sh'"
+echo "ready for 'arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/NaidaArch/2-user.sh'"
