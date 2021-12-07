@@ -167,15 +167,6 @@ pacman -Sy --noconfirm
 
 
 echo "-------------------------------------------------------------------------"
-echo "--                     Base Install on Main Drive                      --"
-echo "-------------------------------------------------------------------------"
-pacstrap /mnt linux base sudo networkmanager iwd --noconfirm --needed
-genfstab -U /mnt >> /mnt/etc/fstab
-#echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
-cp -R ${SCRIPT_DIR} /mnt/root/NaidaArch
-cp /mnt/etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist.backup
-cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist	    
-echo "-------------------------------------------------------------------------"
 echo "--                      GRUB Bootloader Install                        --"
 echo "-------------------------------------------------------------------------"
 if [[ ! -d "/sys/firmware/efi" ]]; then
@@ -187,4 +178,15 @@ if [[ -d "/sys/firmware/efi" ]]; then
    grub-install --target=x86_64-efi --efi-directory=/mnt/boot --root-directory=/mnt
 fi
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
-#
+
+
+
+echo "-------------------------------------------------------------------------"
+echo "--                     Base Install on Main Drive                      --"
+echo "-------------------------------------------------------------------------"
+pacstrap /mnt linux base sudo networkmanager iwd --noconfirm --needed
+genfstab -U /mnt >> /mnt/etc/fstab
+#echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
+cp -R ${SCRIPT_DIR} /mnt/root/NaidaArch
+cp /mnt/etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist.backup
+cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist	    
