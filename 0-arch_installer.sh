@@ -166,18 +166,18 @@ sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm
 
 
-echo "-------------------------------------------------------------------------"
-echo "--                      GRUB Bootloader Install                        --"
-echo "-------------------------------------------------------------------------"
-if [[ ! -d "/sys/firmware/efi" ]]; then
-   echo "Detected BIOS"
-   grub-install --boot-directory=/mnt/boot ${disk}
-fi
-if [[ -d "/sys/firmware/efi" ]]; then
-   echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/mnt/boot --root-directory=/mnt
-fi
-#GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
+# echo "-------------------------------------------------------------------------"
+# echo "--                      GRUB Bootloader Install                        --"
+# echo "-------------------------------------------------------------------------"
+# if [[ ! -d "/sys/firmware/efi" ]]; then
+#    echo "Detected BIOS"
+#    grub-install --boot-directory=/mnt/boot ${disk}
+# fi
+# if [[ -d "/sys/firmware/efi" ]]; then
+#    echo "Detected EFI"
+#    grub-install --target=x86_64-efi --efi-directory=/mnt/boot --root-directory=/mnt
+# fi
+# #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 
 
 
