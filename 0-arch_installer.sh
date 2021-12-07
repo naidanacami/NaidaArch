@@ -82,7 +82,7 @@ case $formatdisk in
         sgdisk -a 2048 -o ${disk} # new gpt disk 2048 alignment
 
         # create partitions
-        sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
+        sgdisk -n 1::+20M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
         sgdisk -n 2::+550M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${disk} # partition 2 (UEFI Boot Partition)
         sgdisk -n 3::+${rootsize}G --typecode=3:8300 --change-name=3:'ROOT' ${disk} # partition 3 (Root)
         sgdisk -n 4::-0 --typecode=4:8300 --change-name=4:'HOME' ${disk} # partition 4 (Home), default start, remaining
