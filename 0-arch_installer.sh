@@ -60,11 +60,16 @@ read luks_password
 echo "Please reenter LUKS password"
 read luks_password_recheck
 
-if [[ "$luks_password" != "$luks_password_recheck" ]]; then
-    echo "ERROR: Passwords do not match!"
-    exit 1
+while true; do
+    read -s -p "Please enter LUKS password: " luks_password
+    echo
+    read -s -p "Please enter LUKS password (again): " luks_password_recheck
+    echo
+if [ "$luks_password" = "$luks_password_recheck" ] && [ "$luks_password" != "" ]; then
+    break
 fi
-
+echo "Please try again"
+done
 
 if [[ "${disk}" != *"/dev/"* ]]; then
     disk="/dev/${disk}"
@@ -95,34 +100,46 @@ case $formatdisk in
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p3 -                # ROOT
+	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
-            echo -n "${luks_password}" | cryptsetup open ${disk}p3 ROOT -
+            echo -n "${luks_password}" | cryptsetup open ${disk}p3 CRYPTROOT -
+	        read -p "PAUSED... " paseusuussssss
         # now format that container
-            mkfs.ext4 -L ROOT /dev/mapper/ROOT
-
+            mkfs.ext4 -L ROOT /dev/mapper/CRYPTROOT
+	        read -p "PAUSED... " paseusuussssss
+            
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p4 -                # HOME
+	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
-            echo -n "${luks_password}" | cryptsetup open ${disk}p4 HOME -
+            echo -n "${luks_password}" | cryptsetup open ${disk}p4 CRYPTHOME -
+	        read -p "PAUSED... " paseusuussssss
         # now format that container
-            mkfs.ext4 -L HOME /dev/mapper/HOME
+            mkfs.ext4 -L HOME /dev/mapper/CRYPTHOME
+	        read -p "PAUSED... " paseusuussssss
 
         else
             mkfs.vfat -F32 -n "EFIBOOT" ${disk}2                                               # EFIBOOT
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}3 -                # ROOT
+	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
             echo -n "${luks_password}" | cryptsetup open ${disk}3 ROOT -
+	        read -p "PAUSED... " paseusuussssss
         # now format that container
             mkfs.ext4 -L ROOT /dev/mapper/ROOT
+	        read -p "PAUSED... " paseusuussssss
 
         # enter luks password to cryptsetup and format root partition
             echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}4 -                # HOME
+	        read -p "PAUSED... " paseusuussssss
         # open luks container and ROOT will be place holder 
             echo -n "${luks_password}" | cryptsetup open ${disk}4 HOME -
+	        read -p "PAUSED... " paseusuussssss
         # now format that container
             mkfs.ext4 -L HOME /dev/mapper/HOME
+	        read -p "PAUSED... " paseusuussssss
 
         fi
         echo "Mounting Filesystems..."

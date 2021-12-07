@@ -25,5 +25,6 @@ makepkg -si --noconfirm
 
 yay -S --noconfirm --needed - < /pkg-files/aur-pkgs.txt
 
+
 echo -e "\nDone!\n"
 exit
