@@ -40,8 +40,8 @@ pacman -S --noconfirm --needed gptfdisk cryptsetup grub
 # Misc Setup
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 timedatectl set-ntp true
-pacman -S --noconfirm terminus-font
-setfont ter-v22b
+# pacman -S --noconfirm terminus-font
+# setfont ter-v22b
 
 
 echo -ne "
