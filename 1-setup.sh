@@ -134,7 +134,8 @@ if [[ -d "/sys/firmware/efi" ]]; then
    grub-install --target=x86_64-efi --efi-directory=/mnt/boot --root-directory=/mnt
 fi
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
-
+echo "paused"
+read pause
 
 echo "-------------------------------------------------------------------------"
 echo "--                       Installing Packages                           --"
