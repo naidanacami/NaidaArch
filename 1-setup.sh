@@ -125,14 +125,22 @@ esac
 echo "-------------------------------------------------------------------------"
 echo "--                      GRUB Bootloader Install                        --"
 echo "-------------------------------------------------------------------------"
+# Edit mkinitcpio.conf for LUKS
+sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems keygoard fsck)' /etc/mkinitcpio.conf
+mkinitcpio -p linux
+
+# Install Grub
+pacman -S  --nopass --needed grub efibootmgr
 if [[ ! -d "/sys/firmware/efi" ]]; then
    echo "Detected BIOS"
    grub-install --boot-directory=/mnt/boot ${disk}
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/mnt/boot --root-directory=/mnt
+   grub-install --target=x86_64-efi --efi-directory=/mnt/boot --bootloader-id=GRUB
 fi
+
+# TODO edit /etc/default/grub https://youtu.be/kD3WC-93jEk?t=1161
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 echo "paused"
 read pause
