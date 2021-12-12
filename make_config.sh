@@ -24,8 +24,8 @@ echo -ne "
 
     echo -e "-------------------------------------------------------------------------"
     echo -e " This script will make a sample config file (install.conf) you can edit  "
-    echo -e " It will ask for disk to format, username, password, and host as well as "
-    echo -e " provide default package list for Arch and ARU you can modify.           "
+    echo -e " NOTE: if you cancel without completing this config gen, you wil have to "
+    echo -e "                     delete /NaidaArch/install.conf                      "
     echo -e "-------------------------------------------------------------------------"
     echo ""
     # lsblk
@@ -89,3 +89,7 @@ fi
 echo "-------------------------------------------------------------------------"
 echo "--              install.conf for $username generated"
 echo "-------------------------------------------------------------------------"
+
+
+echo "volume_group_name=cryptLVM" >> $configFileName
+echo 'crypt_device="LUKS_VG1"' >> $configFileName
