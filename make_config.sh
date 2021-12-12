@@ -50,7 +50,7 @@ if [ -e "$configFileName" ] && [ ! -z "$username" ]; then
 	echo "Creating user - $username."
 else
 	read -p "Please enter username:" username
-	echo "username=$username" >> $configFileName
+	echo "username=\"$username\"" >> $configFileName
 fi
 
 
@@ -68,7 +68,7 @@ fi
 	    echo "Please try again"
 	done
 #	sed -i.bak "s/^\(password=\).*/\1$password/" $configFileName
-    echo "password=$password" >> $configFileName
+    echo "password=\"$password\"" >> $configFileName
 
 
 
@@ -78,7 +78,7 @@ if [ -e "$configFileName" ] && [ ! -z "$hostname" ]; then
 	echo "hostname: $hostname"
 else
 	read -p "Please name your machine:" hostname
-	echo "hostname=$hostname" >> $configFileName
+	echo "hostname=\"$hostname\"" >> $configFileName
 fi
 #echo $hostname > /etc/hostname
 
@@ -91,5 +91,5 @@ echo "--              install.conf for $username generated"
 echo "-------------------------------------------------------------------------"
 
 
-echo "volume_group_name=cryptLVM" >> $configFileName
-echo 'crypt_device="LUKS_VG1"' >> $configFileName
+echo "volume_group_name=\"cryptLVM\"" >> $configFileName
+echo 'crypt_device=\"LUKS_VG1\"' >> $configFileName
