@@ -141,8 +141,14 @@ if [[ -d "/sys/firmware/efi" ]]; then
 fi
 
 #! This assumes that partition 3 is the LVM partition. It should be if the disk is zapped and properly parted.
-# edits /etc/default/grub
+# Read config file, if it exists
 configFileName=${HOME}/NaidaArch/install.conf
+if [ -e "$configFileName" ]; then
+	echo "Using configuration file $configFileName."
+	. $configFileName
+fi
+
+# edits /etc/default/grub
 lvmuuid=$(blkid | grep sd__ | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
 #	grep sd__: only grabs line with sd__
 #	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 
@@ -165,12 +171,6 @@ sudo pacman -S --noconfirm --needed - < /pkg-files/pacman-pkgs.txt
 echo "-------------------------------------------------------------------------"
 echo "--                            Setup User                               --"
 echo "-------------------------------------------------------------------------"
-# Read config file, if it exists
-configFileName=${HOME}/NaidaArch/install.conf
-if [ -e "$configFileName" ]; then
-	echo "Using configuration file $configFileName."
-	. $configFileName
-fi
 
 # Get username
 if [ -e "$configFileName" ] && [ ! -z "$username" ]; then

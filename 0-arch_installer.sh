@@ -82,6 +82,7 @@ case $formatdisk in
         sgdisk -a 2048 -o ${disk} # new gpt disk 2048 alignment
 
         configFileName=/NaidaArch/install.conf
+    	. $configFileName
         # create partitions
         sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
         sgdisk -n 2::+550M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${disk} # partition 2 (UEFI Boot Partition)
