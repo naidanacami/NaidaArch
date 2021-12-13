@@ -125,12 +125,13 @@ esac
 echo "-------------------------------------------------------------------------"
 echo "--                      GRUB Bootloader Install                        --"
 echo "-------------------------------------------------------------------------"
+pacman -S --noconfirm --needed grub efibootmgr lvm2
+
 # Edit mkinitcpio.conf for LUKS
 sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 # Install Grub
-pacman -S --noconfirm --needed grub efibootmgr lvm2
 if [[ ! -d "/sys/firmware/efi" ]]; then
    echo "Detected BIOS"
    grub-install --boot-directory=/mnt/boot ${disk}
