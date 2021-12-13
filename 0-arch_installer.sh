@@ -57,9 +57,9 @@ echo "Please enter desired root (/) directory size (in GiB): (example 50)"
 read rootsize
 
 while true; do
-    read -s -p "Please enter LUKS password: " luks_password
+    read -p "Please enter LUKS password: " luks_password
     echo
-    read -s -p "Please enter LUKS password (again): " luks_password_recheck
+    read -p "Please enter LUKS password (again): " luks_password_recheck
     echo
 if [ "$luks_password" = "$luks_password_recheck" ] && [ "$luks_password" != "" ]; then
     break
@@ -110,7 +110,6 @@ case $formatdisk in
             mkfs.ext4 /dev/${volume_group_name}/root                                                    # Format root ext4
             mkfs.ext4 /dev/${volume_group_name}/home                                                    # Format home ext4
 
-            read -p "Pause 1" pause
         else
             mkfs.vfat -F32 -n "EFIBOOT" ${disk}2                                                        # EFIBOOT
 
@@ -125,7 +124,6 @@ case $formatdisk in
             # now format that container
             mkfs.ext4 /dev/${volume_group_name}/root                                                    # Format root ext4
             mkfs.ext4 /dev/${volume_group_name}/home                                                    # Format home ext4
-            read -p "Pause 1" pause
 
         fi
         echo "Mounting Filesystems..."
@@ -136,7 +134,6 @@ case $formatdisk in
         #! mkdir /mnt/boot/efi
         mkdir /mnt/boot/efi
         mount -t vfat -L EFIBOOT /mnt/boot                            # Mounting efi
-        read -p "Pause 2" pause
     
         if ! grep -qs '/mnt' /proc/mounts; then
             echo "Drive is not mounted can not continue"
