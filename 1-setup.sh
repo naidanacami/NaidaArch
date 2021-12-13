@@ -149,12 +149,13 @@ fi
 
 #! This assumes that partition 3 is the LVM partition. It should be if the disk is zapped and properly parted.
 # edits /etc/default/grub
-lvmuuid=$(blkid | grep sd__ | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
+disk_no_dev=$(${disk} | cut -d "/" -f 3)
+lvmuuid=$(blkid | grep ${disk_no_dev} | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
 #	grep sd__: only grabs line with sd__
 #	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 
 #	awk '{print $1}': Gets the uuid and leaves everything else out
 #	sed 's/"//g': removes all "
-sed -i "/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\"" /etc/default/grub	
+sed -i "/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\"" /etc/default/grub	
 
 
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
