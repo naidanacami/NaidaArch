@@ -149,7 +149,6 @@ fi
 
 #! This assumes that partition 3 is the LVM partition. It should be if the disk is zapped and properly parted.
 # edits /etc/default/grub
-disk_no_dev=$(${disk} | cut -d "/" -f 3)
 lvmuuid=$(blkid | grep ${disk_no_dev} | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
 #	grep sd__: only grabs line with sd__
 #	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 

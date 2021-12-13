@@ -58,9 +58,7 @@ read rootsize
 
 while true; do
     read -p "Please enter LUKS password: " luks_password
-    echo
     read -p "Please enter LUKS password (again): " luks_password_recheck
-    echo
 if [ "$luks_password" = "$luks_password_recheck" ] && [ "$luks_password" != "" ]; then
     break
 fi
@@ -86,14 +84,15 @@ case $formatdisk in
         # create partitions
         sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
         sgdisk -n 2::+550M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${disk} # partition 2 (UEFI Boot Partition)
-        sgdisk -n 3::-0 --typecode=3:8e00 --change-name=3:"LVM_$hostname" ${disk} # partition 3 (lvm)
+        sgdisk -n 3::-0 --typecode=3:8e00 --change-name=3:"LVM_${hostname}" ${disk} # partition 3 (lvm)
         #! sgdisk -n 4::-0 --typecode=4:8300 --change-name=4:'HOME' ${disk} # partition 4 (Home), default start, remaining
         if [[ ! -d "/sys/firmware/efi" ]]; then
             sgdisk -A 1:set:2 ${disk}
         fi
-	    echo "disk=\"$disk\"" >> $configFileName
 
-        # make filesystems\
+	    echo "disk=\"$disk\"" >> $configFileName
+        disk_no_dev=$(echo "${disk}" | cut -d "/" -f 3)
+	    echo "disk_no_dev=\"${disk_no_dev}\"" >> $configFileName
         
         if [[ ${disk} =~ "nvme" ]]; then
             mkfs.vfat -F32 -n "EFIBOOT" ${disk}p2                                                       # EFIBOOT

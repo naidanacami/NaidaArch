@@ -59,9 +59,7 @@ fi
 #    if [ "$password" == "*!*CHANGEME*!*...and-dont-store-in-plantext..." ]; then
         while true; do
             read -p "Password for $username: " password
-            echo
             read -p "Password for $username (again): " password2
-            echo
 	    if [ "$password" = "$password2" ] && [ "$password" != "" ]; then
 	    	break
 	    fi
