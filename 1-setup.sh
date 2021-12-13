@@ -126,6 +126,12 @@ echo "-------------------------------------------------------------------------"
 echo "--                      GRUB Bootloader Install                        --"
 echo "-------------------------------------------------------------------------"
 pacman -S --noconfirm --needed grub efibootmgr lvm2
+# Read config file, if it exists
+configFileName=${HOME}/NaidaArch/install.conf
+if [ -e "$configFileName" ]; then
+	echo "Using configuration file $configFileName."
+	. $configFileName
+fi
 
 # Edit mkinitcpio.conf for LUKS
 sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf
@@ -142,13 +148,6 @@ if [[ -d "/sys/firmware/efi" ]]; then
 fi
 
 #! This assumes that partition 3 is the LVM partition. It should be if the disk is zapped and properly parted.
-# Read config file, if it exists
-configFileName=${HOME}/NaidaArch/install.conf
-if [ -e "$configFileName" ]; then
-	echo "Using configuration file $configFileName."
-	. $configFileName
-fi
-
 # edits /etc/default/grub
 lvmuuid=$(blkid | grep sd__ | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
 #	grep sd__: only grabs line with sd__
