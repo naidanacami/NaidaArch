@@ -158,8 +158,8 @@ sed -i "/GRUB_CMDLINE_LINUX=/c\GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:
 
 
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
-echo "paused"
-read pause
+
+read -p "Post Grub Install Pause" pause
 
 echo "-------------------------------------------------------------------------"
 echo "--                       Installing Packages                           --"
