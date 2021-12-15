@@ -157,7 +157,7 @@ lvmuuid=$(blkid | grep ${disk_no_dev} | sed -n 's/.* UUID=//p' | awk '{print $1}
 
 DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
 echo ${DefaultGrub}
-sed -i "/GRUB_CMDLINE_LINUX=/c\${DefaultGrub}" /etc/default/grub
+sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
 
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 
