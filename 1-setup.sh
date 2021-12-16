@@ -159,6 +159,7 @@ DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} ro
 # echo ${DefaultGrub}
 # sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
 echo ${DefaultGrub} | python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX -d /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 
 read -p "Post Grub Install Pause" pause

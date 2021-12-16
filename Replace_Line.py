@@ -16,7 +16,7 @@ with io.open(args.directory, "r", encoding="UTF-8") as f:
 # Writes
 with io.open(args.directory, "w", encoding="UTF-8") as f:
     for line in f_lines:
-            if not args.replace in line:
-                f.write(line)
-            else:
+            if args.replace in line:
                 f.write(string_to_insert + "\n")
+            else:
+                f.write(line)
