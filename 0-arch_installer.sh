@@ -89,10 +89,6 @@ case $formatdisk in
         if [[ ! -d "/sys/firmware/efi" ]]; then
             sgdisk -A 1:set:2 ${disk}
         fi
-
-	    echo "disk=\"$disk\"" >> $configFileName
-        disk_no_dev=$(echo "${disk}" | cut -d "/" -f 3)
-	    echo "disk_no_dev=\"${disk_no_dev}\"" >> $configFileName
         
         if [[ ${disk} =~ "nvme" ]]; then
             mkfs.vfat -F32 -n "EFIBOOT" ${disk}p2                                                       # EFIBOOT
