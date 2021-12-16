@@ -158,7 +158,7 @@ lvmuuid=$(blkid | grep ${disk_no_dev} | sed -n 's/.* UUID=//p' | awk '{print $1}
 DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
 # echo ${DefaultGrub}
 # sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
-echo ${DefaultGrub} | python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX -d /etc/default/grub
+python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX -d /etc/default/grub -i "${DefaultGrub} "
 grub-mkconfig -o /boot/grub/grub.cfg
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 

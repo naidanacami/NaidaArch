@@ -2,8 +2,8 @@ import argparse, shutil, io
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--directory", help="Directory of file")
 parser.add_argument("-r", "--replace", help="String to match")
+parser.add_argument("-i", "--insert", help="String to insert")
 args = parser.parse_args()
-string_to_insert = input("String to insert  >").strip('" ')
 
 
 # Backs up file
@@ -17,6 +17,6 @@ with io.open(args.directory, "r", encoding="UTF-8") as f:
 with io.open(args.directory, "w", encoding="UTF-8") as f:
     for line in f_lines:
             if args.replace in line:
-                f.write(string_to_insert + "\n")
+                f.write(args.insert + "\n")
             else:
                 f.write(line)
