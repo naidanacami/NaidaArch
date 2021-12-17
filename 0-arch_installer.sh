@@ -128,8 +128,7 @@ case $formatdisk in
         mkdir /mnt/home
         mount /dev/${volume_group_name}/home /mnt/home                # Mounting Home
         mkdir /mnt/boot
-        #! mkdir /mnt/boot/efi
-        mkdir /mnt/boot/efi
+        # mkdir /mnt/boot/efi
         mount -t vfat -L EFIBOOT /mnt/boot                            # Mounting efi
     
         if ! grep -qs '/mnt' /proc/mounts; then

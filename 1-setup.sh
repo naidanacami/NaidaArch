@@ -134,17 +134,17 @@ if [ -e "$configFileName" ]; then
 fi
 
 # Edit mkinitcpio.conf for LUKS
-sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf
+sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block keyboard encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 # Install Grub
 if [[ ! -d "/sys/firmware/efi" ]]; then
    echo "Detected BIOS"
-   grub-install --boot-directory=/mnt/boot ${disk}
+   grub-install --target=i386-pc ${disk}
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/mnt/boot --bootloader-id=GRUB
+   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 fi
 
 #! This assumes that partition 3 is the LVM partition. It should be if the disk is zapped and properly parted.
@@ -158,7 +158,7 @@ lvmuuid=$(blkid | grep sda3 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's
 DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
 # echo ${DefaultGrub}
 # sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
-python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} "
+python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} \nGRUB_ENABLE_CRYPTODISK=y"
 grub-mkconfig -o /boot/grub/grub.cfg
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 
