@@ -140,16 +140,20 @@ mkinitcpio -p linux
 # Install Grub
 if [[ ! -d "/sys/firmware/efi" ]]; then
    echo "Detected BIOS"
-   grub-install --target=i386-pc ${disk}
+#    grub-install --target=i386-pc ${disk}
+	echo "-------------------------------------------------------------------------"
+	echo "--                BIOS system not currently supported!                 --"
+	echo "--                            End of script                            --"
+	echo "-------------------------------------------------------------------------"
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 fi
 
-#! This assumes that partition 3 is the LVM partition. It should be if the disk is zapped and properly parted.
+#! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
 # edits /etc/default/grub
-lvmuuid=$(blkid | grep sda3 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
+lvmuuid=$(blkid | grep sda2 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
 #	grep sd__: only grabs line with sd__
 #	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 
 #	awk '{print $1}': Gets the uuid and leaves everything else out
@@ -158,7 +162,8 @@ lvmuuid=$(blkid | grep sda3 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's
 DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
 # echo ${DefaultGrub}
 # sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
-python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} \nGRUB_ENABLE_CRYPTODISK=y"
+python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} "
+# GRUB_ENABLE_CRYPTODISK=y?
 grub-mkconfig -o /boot/grub/grub.cfg
 #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 

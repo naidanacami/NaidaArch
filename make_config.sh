@@ -89,5 +89,7 @@ echo "--              install.conf for $username generated"
 echo "-------------------------------------------------------------------------"
 
 
-echo 'volume_group_name="cryptLVM"' >> $configFileName
-echo 'crypt_device="LUKS_VG1"' >> $configFileName
+# echo 'volume_group_name="cryptLVM"' >> $configFileName
+# echo 'crypt_device="LUKS_VG1"' >> $configFileName
+echo 'volume_group_name="vg1"' >> $configFileName
+echo 'crypt_device="cryptLVM"' >> $configFileName

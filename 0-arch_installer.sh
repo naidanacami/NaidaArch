@@ -58,7 +58,7 @@ read rootsize
 
 while true; do
     read -p "Please enter LUKS password: " luks_password
-    read -p "Please enter LUKS password (again): " luks_password_recheck
+    read -p "Verify LUKS password: " luks_password_recheck
 if [ "$luks_password" = "$luks_password_recheck" ] && [ "$luks_password" != "" ]; then
     break
 fi
@@ -82,10 +82,9 @@ case $formatdisk in
         configFileName=/root/NaidaArch/install.conf
     	. $configFileName
         # create partitions
-        sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
-        sgdisk -n 2::+550M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${disk} # partition 2 (UEFI Boot Partition)
-        sgdisk -n 3::-0 --typecode=3:8e00 --change-name=3:"LVM_${hostname}" ${disk} # partition 3 (lvm)
-        #! sgdisk -n 4::-0 --typecode=4:8300 --change-name=4:'HOME' ${disk} # partition 4 (Home), default start, remaining
+        # sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
+        sgdisk -n 1::+550M --typecode=1:ef00 --change-name=1:'EFIBOOT' ${disk} # partition 1 (UEFI Boot Partition)
+        sgdisk -n 2::-0 --typecode=2:8e00 --change-name=2:"LVM_${hostname}" ${disk} # partition 2 (lvm)
         if [[ ! -d "/sys/firmware/efi" ]]; then
             sgdisk -A 1:set:2 ${disk}
         fi
@@ -93,11 +92,11 @@ case $formatdisk in
         echo "disk=\"$disk\"" >> $configFileName
         
         if [[ ${disk} =~ "nvme" ]]; then
-            mkfs.vfat -F32 -n "EFIBOOT" ${disk}p2                                                       # EFIBOOT
+            mkfs.fat -F32 -n "EFIBOOT" ${disk}p1                                                       # EFIBOOT
 
             # LUKS for LVMROOT
-            echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p3 -                        # enter luks password to cryptsetup and format root partition
-            echo -n "${luks_password}" | cryptsetup open ${disk}p3 ${crypt_device} -                    # open luks container
+            echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p2 -                        # enter luks password to cryptsetup and format root partition
+            echo -n "${luks_password}" | cryptsetup open ${disk}p2 ${crypt_device} -                    # open luks container
             #LVM for LVMROOT
             pvcreate /dev/mapper/${crypt_device}                                                        # To create a PV
             vgcreate ${volume_group_name} /dev/mapper/${crypt_device}
@@ -108,11 +107,11 @@ case $formatdisk in
             mkfs.ext4 /dev/${volume_group_name}/home                                                    # Format home ext4
 
         else
-            mkfs.vfat -F32 -n "EFIBOOT" ${disk}2                                                        # EFIBOOT
+            mkfs.fat -F32 -n "EFIBOOT" ${disk}1                                                        # EFIBOOT
 
             # LUKS for LVMROOT
-            echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}3 -                         # enter luks password to cryptsetup and format root partition
-            echo -n "${luks_password}" | cryptsetup open ${disk}3 ${crypt_device} -                     # open luks container
+            echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}2 -                         # enter luks password to cryptsetup and format root partition
+            echo -n "${luks_password}" | cryptsetup open ${disk}2 ${crypt_device} -                     # open luks container
             #LVM for LVMROOT
             pvcreate /dev/mapper/${crypt_device}                                                        # To create a PV
             vgcreate ${volume_group_name} /dev/mapper/${crypt_device}
@@ -129,7 +128,7 @@ case $formatdisk in
         mount /dev/${volume_group_name}/home /mnt/home                # Mounting Home
         mkdir /mnt/boot
         # mkdir /mnt/boot/efi
-        mount -t vfat -L EFIBOOT /mnt/boot                            # Mounting efi
+        mount -L EFIBOOT /mnt/boot                            # Mounting efi
     
         if ! grep -qs '/mnt' /proc/mounts; then
             echo "Drive is not mounted can not continue"
