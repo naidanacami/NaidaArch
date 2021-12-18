@@ -122,36 +122,36 @@ microsoft ) 	echo "Installing Hyper-V guest tools."
 esac
 
 
-# echo "-------------------------------------------------------------------------"
-# echo "--                      GRUB Bootloader Install                        --"
-# echo "-------------------------------------------------------------------------"
-pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
-# Read config file, if it exists
-configFileName=${HOME}/NaidaArch/install.conf
-if [ -e "$configFileName" ]; then
-	echo "Using configuration file $configFileName."
-	. $configFileName
-fi
+echo "-------------------------------------------------------------------------"
+echo "--                      GRUB Bootloader Install                        --"
+echo "-------------------------------------------------------------------------"
+# pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
+# # Read config file, if it exists
+# configFileName=${HOME}/NaidaArch/install.conf
+# if [ -e "$configFileName" ]; then
+# 	echo "Using configuration file $configFileName."
+# 	. $configFileName
+# fi
 
-# # Edit mkinitcpio.conf for LUKS
-sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
-sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block keyboard encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf			# Edit hooks
-sed -i 's/placeholder/#     HOOKS=(/' /etc/mkinitcpio.conf																				# Replace placeholder with originals
-mkinitcpio -p linux
+# # # Edit mkinitcpio.conf for LUKS
+# sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
+# sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block keyboard encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf			# Edit hooks
+# sed -i 's/placeholder/#     HOOKS=(/' /etc/mkinitcpio.conf																				# Replace placeholder with originals
+# mkinitcpio -p linux
 
-# Install Grub
-if [[ ! -d "/sys/firmware/efi" ]]; then
-   echo "Detected BIOS"
-#    grub-install --target=i386-pc ${disk}
-	echo "-------------------------------------------------------------------------"
-	echo "--                BIOS system not currently supported!                 --"
-	echo "--                            End of script                            --"
-	echo "-------------------------------------------------------------------------"
-fi
-if [[ -d "/sys/firmware/efi" ]]; then
-   echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/boot
-fi
+# # Install Grub
+# if [[ ! -d "/sys/firmware/efi" ]]; then
+#    echo "Detected BIOS"
+# #    grub-install --target=i386-pc ${disk}
+# 	echo "-------------------------------------------------------------------------"
+# 	echo "--                BIOS system not currently supported!                 --"
+# 	echo "--                            End of script                            --"
+# 	echo "-------------------------------------------------------------------------"
+# fi
+# if [[ -d "/sys/firmware/efi" ]]; then
+#    echo "Detected EFI"
+#    grub-install --target=x86_64-efi --efi-directory=/boot
+# fi
 
 # #! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
 # # edits /etc/default/grub
