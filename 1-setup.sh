@@ -122,55 +122,55 @@ microsoft ) 	echo "Installing Hyper-V guest tools."
 esac
 
 
-echo "-------------------------------------------------------------------------"
-echo "--                      GRUB Bootloader Install                        --"
-echo "-------------------------------------------------------------------------"
-pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
-# Read config file, if it exists
-configFileName=${HOME}/NaidaArch/install.conf
-if [ -e "$configFileName" ]; then
-	echo "Using configuration file $configFileName."
-	. $configFileName
-fi
+# echo "-------------------------------------------------------------------------"
+# echo "--                      GRUB Bootloader Install                        --"
+# echo "-------------------------------------------------------------------------"
+# pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
+# # Read config file, if it exists
+# configFileName=${HOME}/NaidaArch/install.conf
+# if [ -e "$configFileName" ]; then
+# 	echo "Using configuration file $configFileName."
+# 	. $configFileName
+# fi
 
-# Edit mkinitcpio.conf for LUKS
-sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
-sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block keyboard encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf			# Edit hooks
-sed -i 's/placeholder/#     HOOKS=(/' /etc/mkinitcpio.conf																				# Replace placeholder with originals
+# # Edit mkinitcpio.conf for LUKS
+# sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
+# sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block keyboard encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf			# Edit hooks
+# sed -i 's/placeholder/#     HOOKS=(/' /etc/mkinitcpio.conf																				# Replace placeholder with originals
 
-mkinitcpio -p linux
+# mkinitcpio -p linux
 
-# Install Grub
-if [[ ! -d "/sys/firmware/efi" ]]; then
-   echo "Detected BIOS"
-#    grub-install --target=i386-pc ${disk}
-	echo "-------------------------------------------------------------------------"
-	echo "--                BIOS system not currently supported!                 --"
-	echo "--                            End of script                            --"
-	echo "-------------------------------------------------------------------------"
-fi
-if [[ -d "/sys/firmware/efi" ]]; then
-   echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-fi
+# # Install Grub
+# if [[ ! -d "/sys/firmware/efi" ]]; then
+#    echo "Detected BIOS"
+# #    grub-install --target=i386-pc ${disk}
+# 	echo "-------------------------------------------------------------------------"
+# 	echo "--                BIOS system not currently supported!                 --"
+# 	echo "--                            End of script                            --"
+# 	echo "-------------------------------------------------------------------------"
+# fi
+# if [[ -d "/sys/firmware/efi" ]]; then
+#    echo "Detected EFI"
+#    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+# fi
 
-#! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
-# edits /etc/default/grub
-# lvmuuid=$(blkid | grep sda2 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
-lvmuuid=$(blkid -s UUID -o value /dev/sda2)
-#	grep sd__: only grabs line with sd__
-#	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 
-#	awk '{print $1}': Gets the uuid and leaves everything else out
-#	sed 's/"//g': removes all "
+# #! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
+# # edits /etc/default/grub
+# # lvmuuid=$(blkid | grep sda2 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
+# lvmuuid=$(blkid -s UUID -o value /dev/sda2)
+# #	grep sd__: only grabs line with sd__
+# #	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 
+# #	awk '{print $1}': Gets the uuid and leaves everything else out
+# #	sed 's/"//g': removes all "
 
-DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
-# echo ${DefaultGrub}
-# sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
-python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} "
-echo GRUB_ENABLE_CRYPTODISK=y >> /etc/default/grub
-# GRUB_ENABLE_CRYPTODISK=y?
-grub-mkconfig -o /boot/grub/grub.cfg
-#GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
+# DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
+# # echo ${DefaultGrub}
+# # sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
+# python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} "
+# echo GRUB_ENABLE_CRYPTODISK=y >> /etc/default/grub
+# # GRUB_ENABLE_CRYPTODISK=y?
+# grub-mkconfig -o /boot/grub/grub.cfg
+# #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 
 read -p "Post Grub Install Pause" pause
 
@@ -239,3 +239,6 @@ chown -R $username: /home/$username/NaidaArch
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers				# pass
 
 echo "ready for 'arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/NaidaArch/2-user.sh'"
+
+
+echo "do the grub"
