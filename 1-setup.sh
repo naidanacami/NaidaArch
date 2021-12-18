@@ -125,7 +125,7 @@ esac
 # echo "-------------------------------------------------------------------------"
 # echo "--                      GRUB Bootloader Install                        --"
 # echo "-------------------------------------------------------------------------"
-# pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
+pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
 # Read config file, if it exists
 configFileName=${HOME}/NaidaArch/install.conf
 if [ -e "$configFileName" ]; then
