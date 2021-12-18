@@ -126,12 +126,12 @@ echo "-------------------------------------------------------------------------"
 echo "--                      GRUB Bootloader Install                        --"
 echo "-------------------------------------------------------------------------"
 # pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
-# # Read config file, if it exists
-# configFileName=${HOME}/NaidaArch/install.conf
-# if [ -e "$configFileName" ]; then
-# 	echo "Using configuration file $configFileName."
-# 	. $configFileName
-# fi
+# Read config file, if it exists
+configFileName=${HOME}/NaidaArch/install.conf
+if [ -e "$configFileName" ]; then
+	echo "Using configuration file $configFileName."
+	. $configFileName
+fi
 
 # # # Edit mkinitcpio.conf for LUKS
 # sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
