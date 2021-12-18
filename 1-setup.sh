@@ -150,20 +150,20 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+   grub-install --target=x86_64-efi --efi-directory=/boot
 fi
 
-#! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
-# edits /etc/default/grub
-lvmuuid=$(blkid -s UUID -o value /dev/sda2)
+# #! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
+# # edits /etc/default/grub
+# lvmuuid=$(blkid -s UUID -o value /dev/sda2)
 
-DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
-# sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
-python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub}"
-grub-mkconfig -o /boot/grub/grub.cfg
-#GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
+# DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
+# # sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
+# python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub}"
+# grub-mkconfig -o /boot/grub/grub.cfg
+# #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
 
-read -p "Post Grub Install Pause" pause
+# read -p "Post Grub Install Pause" pause
 
 echo "-------------------------------------------------------------------------"
 echo "--                       Installing Packages                           --"
