@@ -14,7 +14,7 @@ source /mnt/root/NaidaArch/install.conf #read config file
 read -p "Pause 3" pause
 arch-chroot /mnt /usr/bin/runuser -u $username -- /bin/bash /home/$username/NaidaArch/2-user.sh
 arch-chroot /mnt /bin/bash /root/NaidaArch/3-post_setup.sh
-umount -f -a
+# umount -f -a
 
 echo -ne "
     ▄   ██   ▄█ ██▄   ██   ██   █▄▄▄▄ ▄█▄     ▄  █ 
