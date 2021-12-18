@@ -85,9 +85,9 @@ case $formatdisk in
         # sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
         sgdisk -n 1::+550M --typecode=1:ef00 --change-name=1:'EFIBOOT' ${disk} # partition 1 (UEFI Boot Partition)
         sgdisk -n 2::-0 --typecode=2:8e00 --change-name=2:"LVM_${hostname}" ${disk} # partition 2 (lvm)
-        if [[ ! -d "/sys/firmware/efi" ]]; then
-            sgdisk -A 1:set:2 ${disk}
-        fi
+        # if [[ ! -d "/sys/firmware/efi" ]]; then
+        #     sgdisk -A 1:set:2 ${disk}
+        # fi
 
         echo "disk=\"$disk\"" >> $configFileName
         
