@@ -44,7 +44,7 @@ lutris
 gamemode
 vlc
 btop
-bash-completionTabcompletionforBash
+bash-completion
 curl
 neofetch
 openssh
