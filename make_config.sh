@@ -75,7 +75,7 @@ fi
 if [ -e "$configFileName" ] && [ ! -z "$hostname" ]; then
 	echo "hostname: $hostname"
 else
-	read -p "Please name your machine:" hostname
+	read -p "Please name your machine: " hostname
 	echo "hostname=\"$hostname\"" >> $configFileName
 fi
 #echo $hostname > /etc/hostname

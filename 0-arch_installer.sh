@@ -95,8 +95,8 @@ case $formatdisk in
             mkfs.fat -F32 -n "EFIBOOT" ${disk}p1                                                       # EFIBOOT
 
             # LUKS for LVMROOT
-            echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}p2 -                        # enter luks password to cryptsetup and format root partition
-            echo -n "${luks_password}" | cryptsetup open ${disk}p2 ${crypt_device} -                    # open luks container
+            echo -n "${luks_password}" | cryptsetup luksFormat ${disk}p2 -                        # enter luks password to cryptsetup and format root partition
+            echo -n "${luks_password}" | cryptsetup open --type luks ${disk}p2 ${crypt_device} -                    # open luks container
             #LVM for LVMROOT
             pvcreate /dev/mapper/${crypt_device}                                                        # To create a PV
             vgcreate ${volume_group_name} /dev/mapper/${crypt_device}
@@ -110,8 +110,8 @@ case $formatdisk in
             mkfs.fat -F32 -n "EFIBOOT" ${disk}1                                                        # EFIBOOT
 
             # LUKS for LVMROOT
-            echo -n "${luks_password}" | cryptsetup -y -v luksFormat ${disk}2 -                         # enter luks password to cryptsetup and format root partition
-            echo -n "${luks_password}" | cryptsetup open ${disk}2 ${crypt_device} -                     # open luks container
+            echo -n "${luks_password}" | cryptsetup luksFormat ${disk}2 -                         # enter luks password to cryptsetup and format root partition
+            echo -n "${luks_password}" | cryptsetup open --type luks ${disk}2 ${crypt_device} -                     # open luks container
             #LVM for LVMROOT
             pvcreate /dev/mapper/${crypt_device}                                                        # To create a PV
             vgcreate ${volume_group_name} /dev/mapper/${crypt_device}
