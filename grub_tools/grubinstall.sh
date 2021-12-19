@@ -2,7 +2,10 @@
 # python3 /root/NaidaArch/Replace_Line.py -d "/etc/mkinitcpio.conf" -r "HOOKS=" -i "HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems fsck)" -c \# -b True
 # mv /etc/mkinitcpio.conf /etc/mkinitcpio.conf.old
 # mv ./mkmkinitcpio.conf /etc/mkinitcpio.conf
-sed -i 's/filesystems/encrypt lvm2 filesystems/g' /etc/mkinitcpio.conf
+sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
+sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf			# Edit hooks
+sed -i 's/placeholder/#    HOOKS=(/' /etc/mkinitcpio.conf		
+sleep 5
 mkinitcpio -p linux
 
 # Install Grub																										# Install grub
