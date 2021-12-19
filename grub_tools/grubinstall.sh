@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # python3 /root/NaidaArch/Replace_Line.py -d "/etc/mkinitcpio.conf" -r "HOOKS=" -i "HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems fsck)" -c \# -b True
+mv /etc/mkinitcpio.conf /etc/mkinitcpio.conf.old
+mv ./mkmkinitcpio.conf /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 # Install Grub																										# Install grub
