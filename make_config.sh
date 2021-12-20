@@ -49,7 +49,7 @@ echo -ne "
 if [ -e "$configFileName" ] && [ ! -z "$username" ]; then
 	echo "Creating user - $username."
 else
-	read -p "Please enter username:" username
+	read -p "Please enter username: " username
 	echo "username=\"$username\"" >> $configFileName
 fi
 
