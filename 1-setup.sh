@@ -133,14 +133,14 @@ if [ -e "$configFileName" ]; then
 	. $configFileName
 fi
 
-# Edit mkinitcpio.conf for LUKS
 sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
-sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block keyboard encrypt lvm2 filesystems fsck)' /etc/mkinitcpio.conf			# Edit hooks
-sed -i 's/placeholder/#     HOOKS=(/' /etc/mkinitcpio.conf																				# Replace placeholder with originals
-
+sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf			# Edit hooks
+sed -i 's/placeholder/#    HOOKS=(/' /etc/mkinitcpio.conf																					# Replace placeholder with originals
+sleep 1
 mkinitcpio -p linux
+mkinitcpio -P
 
-# Install Grub
+# Install Grub																										# Install grub
 if [[ ! -d "/sys/firmware/efi" ]]; then
    echo "Detected BIOS"
 #    grub-install --target=i386-pc ${disk}
@@ -148,37 +148,27 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
 	echo "--                BIOS system not currently supported!                 --"
 	echo "--                            End of script                            --"
 	echo "-------------------------------------------------------------------------"
+	exit 0
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+   grub-install --target=x86_64-efi --efi-directory=/boot
 fi
 
-#! This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
-# edits /etc/default/grub
-# lvmuuid=$(blkid | grep sda2 | sed -n 's/.* UUID=//p' | awk '{print $1}' | sed 's/"//g')
+# This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
+# edits /etc/default/grub																							# edits cfg
 lvmuuid=$(blkid -s UUID -o value /dev/sda2)
-#	grep sd__: only grabs line with sd__
-#	sed -n 's/.* UUID=//p': Removes everything before and including " UUID=" 
-#	awk '{print $1}': Gets the uuid and leaves everything else out
-#	sed 's/"//g': removes all "
-
-DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:${crypt_device} root=/dev/${volume_group_name}/root\""	
-# echo ${DefaultGrub}
-# sed -i "/GRUB_CMDLINE_LINUX=/c\\${DefaultGrub}" /etc/default/grub
-python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub} "
-echo GRUB_ENABLE_CRYPTODISK=y >> /etc/default/grub
-# GRUB_ENABLE_CRYPTODISK=y?
+DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:cryptLVM root=/dev/vg1/root\""	
+python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub}"
 grub-mkconfig -o /boot/grub/grub.cfg
-#GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
-
-read -p "Post Grub Install Pause" pause
+#GRUB has been flaky...moving to chroot...
 
 echo "-------------------------------------------------------------------------"
 echo "--                       Installing Packages                           --"
 echo "-------------------------------------------------------------------------"
 
-sudo pacman -S --noconfirm --needed - < ${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt
+# sudo pacman -S --noconfirm --needed - < ${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt
+sudo pacman -S --noconfirm --needed $(cat${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt)
 
 
 echo "-------------------------------------------------------------------------"
