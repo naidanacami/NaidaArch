@@ -7,6 +7,7 @@ sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block encrypt lvm2
 sed -i 's/placeholder/#    HOOKS=(/' /etc/mkinitcpio.conf		
 sleep 5
 mkinitcpio -p linux
+mkinitcpio -P
 
 # Install Grub																										# Install grub
 if [[ ! -d "/sys/firmware/efi" ]]; then
