@@ -136,7 +136,7 @@ fi
 sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
 sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf			# Edit hooks
 sed -i 's/placeholder/#    HOOKS=(/' /etc/mkinitcpio.conf		
-sleep 5
+sleep 1
 mkinitcpio -p linux
 mkinitcpio -P
 
@@ -229,6 +229,3 @@ chown -R $username: /home/$username/NaidaArch
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers				# pass
 
 echo "ready for 'arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/NaidaArch/2-user.sh'"
-
-
-echo "do the grub"
