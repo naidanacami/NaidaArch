@@ -145,21 +145,21 @@ case $formatdisk in
 esac
 
 
-ISO=$(curl -4 ifconfig.co/country-iso)
-echo "-------------------------------------------------------------------------"
-echo "--            Setting up $ISO mirrors for faster downloads             --"
-echo "-------------------------------------------------------------------------"
-pacman -S --noconfirm reflector rsync
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-echo "reflector is running, please wait..."
-reflector -a 48 -c $ISO -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
+# ISO=$(curl -4 ifconfig.co/country-iso)
+# echo "-------------------------------------------------------------------------"
+# echo "--            Setting up $ISO mirrors for faster downloads             --"
+# echo "-------------------------------------------------------------------------"
+# pacman -S --noconfirm reflector rsync
+# cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+# echo "reflector is running, please wait..."
+# reflector -a 48 -c $ISO -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
 
-# Add parallel downloading
-sed -i 's/^#Para/Para/' /etc/pacman.conf
+# # Add parallel downloading
+# sed -i 's/^#Para/Para/' /etc/pacman.conf
 
-# Enable multilib
-sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
-pacman -Sy --noconfirm
+# # Enable multilib
+# sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+# pacman -Sy --noconfirm
 
 
 # echo "-------------------------------------------------------------------------"
