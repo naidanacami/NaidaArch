@@ -1,6 +1,8 @@
 xorg-server
 xorg-apps
 xorg-xinit
+xorg-xrandr
+xorg-xset
 xf86-video-intel
 mesa
 xf86-input-libinput
