@@ -4,14 +4,16 @@ read -t 60 -p 'Welcome! Please wait 60 seconds for lingering tasks (time set, re
 
 status=$?
 bash make_config.sh
-cmd="bash 0-arch_installer.sh"
+cmd="bash 0-pre_chroot.sh"
 $cmd
 status=$? && [ $status -eq 0 ] || exit
 
-arch-chroot /mnt /bin/bash /root/NaidaArch/1-setup.sh
+arch-chroot /mnt /bin/bash /root/NaidaArch/1-post_chroot.sh
 source /mnt/root/NaidaArch/install.conf #read config file
-arch-chroot /mnt /usr/bin/runuser -u $username -- /bin/bash /home/$username/NaidaArch/2-user.sh
+
+arch-chroot /mnt /usr/bin/runuser -u $username -- /bin/bash /home/$username/NaidaArch/2-aur.sh
 arch-chroot /mnt /bin/bash /root/NaidaArch/3-post_setup.sh
+umount -f -a
 
 echo -ne "
     ▄   ██   ▄█ ██▄   ██   ██   █▄▄▄▄ ▄█▄     ▄  █ 

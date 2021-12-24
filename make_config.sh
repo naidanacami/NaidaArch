@@ -24,8 +24,8 @@ echo -ne "
 
     echo -e "-------------------------------------------------------------------------"
     echo -e " This script will make a sample config file (install.conf) you can edit  "
-    echo -e " It will ask for disk to format, username, password, and host as well as "
-    echo -e " provide default package list for Arch and ARU you can modify.           "
+    echo -e " NOTE: if you cancel without completing this config gen, you wil have to "
+    echo -e "                     delete /NaidaArch/install.conf                      "
     echo -e "-------------------------------------------------------------------------"
     echo ""
     # lsblk
@@ -49,8 +49,8 @@ echo -ne "
 if [ -e "$configFileName" ] && [ ! -z "$username" ]; then
 	echo "Creating user - $username."
 else
-	read -p "Please enter username:" username
-	echo "username=$username" >> $configFileName
+	read -p "Please enter username: " username
+	echo "username=\"$username\"" >> $configFileName
 fi
 
 
@@ -58,17 +58,15 @@ fi
 
 #    if [ "$password" == "*!*CHANGEME*!*...and-dont-store-in-plantext..." ]; then
         while true; do
-            read -s -p "Password for $username: " password
-            echo
-            read -s -p "Password for $username (again): " password2
-            echo
+            read -p "Password for $username: " password
+            read -p "Password for $username (again): " password2
 	    if [ "$password" = "$password2" ] && [ "$password" != "" ]; then
 	    	break
 	    fi
 	    echo "Please try again"
 	done
 #	sed -i.bak "s/^\(password=\).*/\1$password/" $configFileName
-    echo "password=$password" >> $configFileName
+    echo "password=\"$password\"" >> $configFileName
 
 
 
@@ -77,8 +75,8 @@ fi
 if [ -e "$configFileName" ] && [ ! -z "$hostname" ]; then
 	echo "hostname: $hostname"
 else
-	read -p "Please name your machine:" hostname
-	echo "hostname=$hostname" >> $configFileName
+	read -p "Please name your machine: " hostname
+	echo "hostname=\"$hostname\"" >> $configFileName
 fi
 #echo $hostname > /etc/hostname
 
@@ -89,3 +87,9 @@ fi
 echo "-------------------------------------------------------------------------"
 echo "--              install.conf for $username generated"
 echo "-------------------------------------------------------------------------"
+
+
+# echo 'volume_group_name="cryptLVM"' >> $configFileName
+# echo 'crypt_device="LUKS_VG1"' >> $configFileName
+echo 'volume_group_name="vg1"' >> $configFileName
+echo 'crypt_device="cryptLVM"' >> $configFileName
