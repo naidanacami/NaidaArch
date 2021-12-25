@@ -168,7 +168,7 @@ echo "--                       Installing Packages                           --"
 echo "-------------------------------------------------------------------------"
 
 # sudo pacman -S --noconfirm --needed - < ${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt
-sudo pacman -S --noconfirm --needed $(cat${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt)
+sudo pacman -S --noconfirm --needed $(cat ${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt)
 
 
 echo "-------------------------------------------------------------------------"
