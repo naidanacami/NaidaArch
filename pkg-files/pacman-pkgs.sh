@@ -122,5 +122,5 @@ PKGS=(
 
 for PKG in "${PKGS[@]}"; do
     echo "INSTALLING ARCH DEFAULT PACKAGE: ${PKG}"
-    pacman -S "$PKG" --noconfirm --needed
+    sudo pacman -S "$PKG" --noconfirm --needed
 done

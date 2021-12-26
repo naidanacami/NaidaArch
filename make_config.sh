@@ -59,7 +59,7 @@ fi
 #    if [ "$password" == "*!*CHANGEME*!*...and-dont-store-in-plantext..." ]; then
         while true; do
             read -p "Password for $username: " password
-            read -p "Password for $username (again): " password2
+            read -p "Verify password for $username : " password2
 	    if [ "$password" = "$password2" ] && [ "$password" != "" ]; then
 	    	break
 	    fi
@@ -68,6 +68,17 @@ fi
 #	sed -i.bak "s/^\(password=\).*/\1$password/" $configFileName
     echo "password=\"$password\"" >> $configFileName
 
+#    if [ "$password" == "*!*CHANGEME*!*...and-dont-store-in-plantext..." ]; then
+        while true; do
+            read -p "Root password: " root_password
+            read -p "Verify root password: : " root_password2
+	    if [ "$root_password" = "$root_password2" ] && [ "$root_password" != "" ]; then
+	    	break
+	    fi
+	    echo "Please try again"
+	done
+#	sed -i.bak "s/^\(password=\).*/\1$password/" $configFileName
+    echo "root_password=\"$root_password\"" 
 
 
 
