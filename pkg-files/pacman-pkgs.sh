@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+PKGS=(
 # Double
 # _   _   ___   ____    ___ 
 # \\ //  // \\  || \\  // \\
@@ -71,7 +73,7 @@
 'firefox'
 'brave'
 
-#! Themes
+# Themes
 'materia-kde'
 'papirus-icon-theme'
 
@@ -116,3 +118,9 @@
 
 # Other
 'grub-customizer' # gui to customize grub
+)
+
+for PKG in "${PKGS[@]}"; do
+    echo "INSTALLING ARCH DEFAULT PACKAGE: ${PKG}"
+    pacman -S "$PKG" --noconfirm --needed
+done
