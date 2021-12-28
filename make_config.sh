@@ -78,7 +78,7 @@ fi
 	    echo "Please try again"
 	done
 #	sed -i.bak "s/^\(password=\).*/\1$password/" $configFileName
-    echo "root_password=\"$root_password\"" 
+    echo "root_password=\"$root_password\"" >> $configFileName
 
 
 
