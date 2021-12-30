@@ -11,8 +11,6 @@
 # https://www.coolgenerator.com/ascii-text-generator
 # The edge
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-configFileName=/root/NaidaArch/install.conf
-logFileName=/root/NaidaArch/log.txt
 
 
 echo -ne "
@@ -74,19 +72,19 @@ echo "THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK"
 read -p "are you sure you want to continue (Y/N):" formatdisk
 case $formatdisk in
     y|Y|yes|Yes|YES)
-        echo "-------------------------------------------------------------------------" | tee -a $logFileName
-        echo "Disk parting/formatting" >> $logFileName
+        echo "-------------------------------------------------------------------------"
         echo -e "\nFormatting ${disk}..."
-        echo "-------------------------------------------------------------------------" | tee -a $logFileName
+        echo "-------------------------------------------------------------------------"
         # disk prep
-        sgdisk -Z ${disk} | tee -a $logFileName             # zap all on disk
-        sgdisk -a 2048 -o ${disk} | tee -a $logFileName     # new gpt disk 2048 alignment
+        sgdisk -Z ${disk} # zap all on disk
+        sgdisk -a 2048 -o ${disk} # new gpt disk 2048 alignment
 
+        configFileName=/root/NaidaArch/install.conf
     	. $configFileName
         # create partitions
-        # sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk}                            # partition 1 (BIOS Boot Partition)
-        sgdisk -n 1::+550M --typecode=1:ef00 --change-name=1:'EFIBOOT' ${disk} | tee -a $logFileName        # partition 1 (UEFI Boot Partition)
-        sgdisk -n 2::-0 --typecode=2:8e00 --change-name=2:"LVM_${hostname}" ${disk} | tee -a $logFileName   # partition 2 (lvm)
+        # sgdisk -n 1::+10M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${disk} # partition 1 (BIOS Boot Partition)
+        sgdisk -n 1::+550M --typecode=1:ef00 --change-name=1:'EFIBOOT' ${disk} # partition 1 (UEFI Boot Partition)
+        sgdisk -n 2::-0 --typecode=2:8e00 --change-name=2:"LVM_${hostname}" ${disk} # partition 2 (lvm)
         # if [[ ! -d "/sys/firmware/efi" ]]; then
         #     sgdisk -A 1:set:2 ${disk}
         # fi
@@ -94,34 +92,34 @@ case $formatdisk in
         echo "disk=\"$disk\"" >> $configFileName
         
         if [[ ${disk} =~ "nvme" ]]; then
-            mkfs.fat -F32 -n "EFIBOOT" ${disk}p1 | tee -a $logFileName                                                          # EFIBOOT
+            mkfs.fat -F32 -n "EFIBOOT" ${disk}p1                                                       # EFIBOOT
 
             # LUKS for LVMROOT
-            echo -n "${luks_password}" | cryptsetup luksFormat ${disk}p2 - | tee -a $logFileName                                # enter luks password to cryptsetup and format root partition
-            echo -n "${luks_password}" | cryptsetup open --type luks ${disk}p2 ${crypt_device} - | tee -a $logFileName          # open luks container
+            echo -n "${luks_password}" | cryptsetup luksFormat ${disk}p2 -                        # enter luks password to cryptsetup and format root partition
+            echo -n "${luks_password}" | cryptsetup open --type luks ${disk}p2 ${crypt_device} -                    # open luks container
             #LVM for LVMROOT
-            pvcreate /dev/mapper/${crypt_device} | tee -a $logFileName                                                          # To create a PV
-            vgcreate ${volume_group_name} /dev/mapper/${crypt_device} | tee -a $logFileName
-            lvcreate -L ${rootsize}G ${volume_group_name} -n root | tee -a $logFileName                                         # Create root
-            lvcreate -l 100%FREE ${volume_group_name} -n home | tee -a $logFileName                                             # Create home
+            pvcreate /dev/mapper/${crypt_device}                                                        # To create a PV
+            vgcreate ${volume_group_name} /dev/mapper/${crypt_device}
+            lvcreate -L ${rootsize}G ${volume_group_name} -n root                                       # Create root
+            lvcreate -l 100%FREE ${volume_group_name} -n home                                           # Create home
             # now format that container
-            mkfs.ext4 /dev/${volume_group_name}/root | tee -a $logFileName                                                      # Format root ext4
-            mkfs.ext4 /dev/${volume_group_name}/home | tee -a $logFileName                                                      # Format home ext4
+            mkfs.ext4 /dev/${volume_group_name}/root                                                    # Format root ext4
+            mkfs.ext4 /dev/${volume_group_name}/home                                                    # Format home ext4
 
         else
-            mkfs.fat -F32 -n "EFIBOOT" ${disk}1 | tee -a $logFileName                                                           # EFIBOOT
+            mkfs.fat -F32 -n "EFIBOOT" ${disk}1                                                        # EFIBOOT
 
             # LUKS for LVMROOT
-            echo -n "${luks_password}" | cryptsetup luksFormat ${disk}2 - | tee -a $logFileName                                 # enter luks password to cryptsetup and format root partition
-            echo -n "${luks_password}" | cryptsetup open --type luks ${disk}2 ${crypt_device} - | tee -a $logFileName           # open luks container
+            echo -n "${luks_password}" | cryptsetup luksFormat ${disk}2 -                         # enter luks password to cryptsetup and format root partition
+            echo -n "${luks_password}" | cryptsetup open --type luks ${disk}2 ${crypt_device} -                     # open luks container
             #LVM for LVMROOT
-            pvcreate /dev/mapper/${crypt_device} | tee -a $logFileName                                                          # To create a PV
-            vgcreate ${volume_group_name} /dev/mapper/${crypt_device} | tee -a $logFileName
-            lvcreate -L ${rootsize}G ${volume_group_name} -n root | tee -a $logFileName                                         # Create root
-            lvcreate -l 100%FREE ${volume_group_name} -n home | tee -a $logFileName                                             # Create home
+            pvcreate /dev/mapper/${crypt_device}                                                        # To create a PV
+            vgcreate ${volume_group_name} /dev/mapper/${crypt_device}
+            lvcreate -L ${rootsize}G ${volume_group_name} -n root                                       # Create root
+            lvcreate -l 100%FREE ${volume_group_name} -n home                                           # Create home
             # now format that container
-            mkfs.ext4 /dev/${volume_group_name}/root | tee -a $logFileName                                                      # Format root ext4
-            mkfs.ext4 /dev/${volume_group_name}/home | tee -a $logFileName                                                      # Format home ext4
+            mkfs.ext4 /dev/${volume_group_name}/root                                                    # Format root ext4
+            mkfs.ext4 /dev/${volume_group_name}/home                                                    # Format home ext4
 
         fi
         echo "Mounting Filesystems..."
@@ -162,6 +160,21 @@ esac
 # # Enable multilib
 # sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 # pacman -Sy --noconfirm
+
+
+# echo "-------------------------------------------------------------------------"
+# echo "--                      GRUB Bootloader Install                        --"
+# echo "-------------------------------------------------------------------------"
+# if [[ ! -d "/sys/firmware/efi" ]]; then
+#    echo "Detected BIOS"
+#    grub-install --boot-directory=/mnt/boot ${disk}
+# fi
+# if [[ -d "/sys/firmware/efi" ]]; then
+#    echo "Detected EFI"
+#    grub-install --target=x86_64-efi --efi-directory=/mnt/boot --root-directory=/mnt
+# fi
+# #GRUB has been flaky...moving to chroot...BE SURE TO INSTALL GRUB IF YOU MOVE BACK
+
 
 
 echo "-------------------------------------------------------------------------"
