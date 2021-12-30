@@ -4,21 +4,26 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 ### CHECKS IF CONFIG NEEDS TO BE MADE
 configFileName=$SCRIPT_DIR/install.conf
+
 # Does the file exist at all?
 if [ -e "$configFileName" ]; then           # File exists
     while true; do
+        # Do all the necessary vars exist?
+        if [ -z "$username" ] || [ -z "$password" ] || [ -z "$root_password" ] || [ -z "$hostname" ] || [ -z "$volume_group_name" ] || [ -z "$crypt_device" ]; then 
+            rm -f $configFileName
+            break
+        fi
+
+        # They do all exist
 	    read -p "Configuration file install.conf already exists. Would you like to recreate it? [Y/n] " yn
         case $yn in
-            [Yy]* ) break;;
+            [Yy]* ) rm -f $configFil; break;;
             * ) echo "Not generating config file"; exit;;
         esac
     done
 fi
 
-# Do all the necessary vars exist?
-if [ -z "$username" ] || [ -z "$password" ] || [ -z "$root_password" ] || [ -z "$hostname" ] || [ -z "$volume_group_name" ] || [ -z "$crypt_device" ]; then
-    rm -f $configFileName
-fi
+
 
 ### MAKING CONFIG
 echo -ne "
