@@ -9,6 +9,7 @@ configFileName=$SCRIPT_DIR/install.conf
 if [ -e "$configFileName" ]; then           # File exists
     while true; do
         # Do all the necessary vars exist?
+        . $configFileName 
         if [ -z "$username" ] || [ -z "$password" ] || [ -z "$root_password" ] || [ -z "$hostname" ] || [ -z "$volume_group_name" ] || [ -z "$crypt_device" ]; then 
             rm -f $configFileName
             break
@@ -17,7 +18,7 @@ if [ -e "$configFileName" ]; then           # File exists
         # They do all exist
 	    read -p "Configuration file install.conf already exists. Would you like to recreate it? [Y/n] " yn
         case $yn in
-            [Yy]* ) rm -f $configFil; break;;
+            [Yy]* ) rm -f $configFileName; break;;
             * ) echo "Not generating config file"; exit;;
         esac
     done
