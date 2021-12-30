@@ -10,6 +10,9 @@
 # -------------------------------------------------
 # https://www.coolgenerator.com/ascii-text-generator
 # The edge
+logFileName=${HOME}/NaidaArch/log.txt
+configFileName=${HOME}/NaidaArch/install.conf
+
 
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo "-------------------------------------------------------------------------"
@@ -122,12 +125,11 @@ microsoft ) 	echo "Installing Hyper-V guest tools."
 esac
 
 
-echo "-------------------------------------------------------------------------"
-echo "--                      GRUB Bootloader Install                        --"
-echo "-------------------------------------------------------------------------"
+echo "-------------------------------------------------------------------------" | tee -a $logFileName
+echo "--                      GRUB Bootloader Install                        --" | tee -a $logFileName
+echo "-------------------------------------------------------------------------" | tee -a $logFileName
 pacman -S --noconfirm --needed grub efibootmgr dosfstools mtools os-prober lvm2
 # Read config file, if it exists
-configFileName=${HOME}/NaidaArch/install.conf
 if [ -e "$configFileName" ]; then
 	echo "Using configuration file $configFileName."
 	. $configFileName
@@ -152,7 +154,7 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
 fi
 if [[ -d "/sys/firmware/efi" ]]; then
    echo "Detected EFI"
-   grub-install --target=x86_64-efi --efi-directory=/boot
+   grub-install --target=x86_64-efi --efi-directory=/boot | tee -a $logFileName
 fi
 
 # This assumes that partition 2 is the LVM partition. It should be if the disk is zapped and properly parted.
@@ -160,15 +162,15 @@ fi
 lvmuuid=$(blkid -s UUID -o value /dev/sda2)
 DefaultGrub="GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${lvmuuid}:cryptLVM root=/dev/vg1/root\""	
 python3 /root/NaidaArch/Replace_Line.py -r GRUB_CMDLINE_LINUX= -d /etc/default/grub -i "${DefaultGrub}"
-grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg | tee -a $logFileName
 #GRUB has been flaky...moving to chroot...
 
-echo "-------------------------------------------------------------------------"
-echo "--                       Installing Packages                           --"
-echo "-------------------------------------------------------------------------"
+echo "-------------------------------------------------------------------------" | tee -a $logFileName
+echo "--                       Installing Packages                           --" | tee -a $logFileName
+echo "-------------------------------------------------------------------------" | tee -a $logFileName
 
 while read p; do
-	pacman -S ---noconfirm --needed $p
+	pacman -S ---noconfirm --needed $p  | tee -a $logFileName
 done <${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt
 
 echo "-------------------------------------------------------------------------"
@@ -190,6 +192,9 @@ if [ $? -eq 0 ]; then
 else
 	useradd -m -G wheel -s /bin/bash $username
 fi
+
+# Sets root password
+echo $root_password | passwd
 
 # Set user password
 if [ -e "$configFileName" ] && [ ! -z "$password" ] && [ "$password" != "*!*CHANGEME*!*...and-dont-store-in-plantext..." ]; then
