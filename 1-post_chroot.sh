@@ -168,7 +168,7 @@ echo "--                       Installing Packages                           --"
 echo "-------------------------------------------------------------------------"
 
 while read p; do
-	pacman -S ---noconfirm --needed $p
+	pacman -S --noconfirm --needed $p
 done <${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt
 
 echo "-------------------------------------------------------------------------"
