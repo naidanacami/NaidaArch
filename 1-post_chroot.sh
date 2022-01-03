@@ -88,7 +88,7 @@ echo "--                   Installing Grapics Drivers                        --"
 echo "-------------------------------------------------------------------------"
 if lspci | grep -E "NVIDIA|GeForce"; then
 	echo "Installing NVIDIA Drivers."
-    	pacman -S nvidia --noconfirm --needed
+    	pacman -S nvidia nvidia-lts --noconfirm --needed
 	nvidia-xconfig
 elif lspci | grep -E "Radeon"; then
     	echo "Installing ATI/AMD Drivers."
@@ -203,6 +203,9 @@ else
 		echo "password=*!*CHANGEME*!*...and-dont-store-in-plantext..." >> $configFileName
 	fi
 fi
+
+# Set root password
+echo $root_password | passwd
 
 # Set hostname
 if [ -e "$configFileName" ] && [ ! -z "$hostname" ]; then
