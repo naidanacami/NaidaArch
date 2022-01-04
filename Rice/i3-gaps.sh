@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
-sudo pacman -S i3-gaps i3blocks i3lock i3status --noconfirm --needed
+
+sudo pacman -S i3-gaps i3blocks  i3lock i3status --noconfirm --needed
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+
+# i3 SETUP
 declare -i connected_monitors=( $(xrandr | grep " connected " | tr -cd '\n' | wc -c) )
 
 if [[ $connected_monitors == 2 ]]; then                                                                                             # Dual monitor. User must declare which is the primary monitor. If there is no primary monitor, too bad
@@ -27,25 +30,39 @@ if [[ $connected_monitors == 2 ]]; then                                         
         fi
         echo "ERROR: Invalid input! Index out of range."
     done
-    primary_monitor=${outputs[$pmon]}
-    secondary_monitor=("${outputs[@]/$primary_monitor}")
-    sed -i "s/set \$monitor_2 --monitor2--/set \$monitor_2 $secondary_monitor/" $script_dir/dotfiles/i3/config_dualmonitor
-    sed -i "s/set \$monitor_1 --monitor1--/set \$monitor_1 $primary_monitor/" $script_dir/dotfiles/i3/config_dualmonitor
 
+    # Get primary and secondary monitor
+    primary_monitor=${outputs[$pmon]}
+    if [ $pmon == 0 ]; then
+        secondary_monitor=${outputs[1]}
+    elif [ $pmon == 1 ]; then
+        secondary_monitor=${outputs[0]}
+    else
+        echo "Error finding secondary monitor"
+        exit
+    fi
+
+    # Moves and edits i3 config
     if [ ! -d "~/.config/i3" ];then
         mkdir -p ~/.config/i3
     fi
-    mv $script_dir/dotfiles/i3/config_dualmonitor ~/.config/i3/config
+    cp $script_dir/dotfiles/i3/config_dualmonitor ~/.config/i3/config
+
+    sed -i "s/set \$monitor_2 --monitor2--/set \$monitor_2 $secondary_monitor/" ~/.config/i3/config
+    sed -i "s/set \$monitor_1 --monitor1--/set \$monitor_1 $primary_monitor/" ~/.config/i3/config
+
+
 
 elif [[ $connected_monitors == 1 ]]; then                                                       # If there are more than one monitor, primary does not need to be set
     echo "ONE MONITOR DETECTED!"
     output=( $(xrandr | grep " connected " | awk '{print $1}') )
-    sed -i "s/set \$monitor_1 --monitor--/set \$monitor_1 $output/" $script_dir/dotfiles/i3/config_singlemonitor		    # Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
 
+    # Moves and edits i3 config
     if [ ! -d "~/.config/i3" ];then
         mkdir -p ~/.config/i3
     fi
-    mv $script_dir/dotfiles/i3/config_singlemonitor ~/.config/i3/config
+    cp $script_dir/dotfiles/i3/config_singlemonitor ~/.config/i3/config
+    sed -i "s/set \$monitor_1 --monitor--/set \$monitor_1 $output/" ~/.config/i3/config		    # Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
 
 elif [[ $connected_monitors > 2 ]]; then                                                        # No config will be made by this script (i am lazy)
     echo "WARNING: more than 2 monitors detected! You will have to make you own config"
