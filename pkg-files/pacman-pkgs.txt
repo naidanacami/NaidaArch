@@ -58,3 +58,4 @@ ntfs-3g
 catfish
 veracrypt
 grub-customizer
+arandr
