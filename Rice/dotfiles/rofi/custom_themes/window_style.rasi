@@ -1,0 +1,86 @@
+configuration {
+  font:               "Cascadia Code Medium 10";
+	icon-theme:         "Papirus";
+  modi :              "window";
+  display-window:     "Switch:";
+}
+
+@import "colors.rasi"
+
+* {
+  border:             0;
+  margin:             0;
+  padding:            0;
+  spacing:            0;
+  width:              36%;
+  background-color:   @bg;
+  text-color:         @fg;
+}
+
+window {
+  transparency:       "real";
+  location:           center;
+}
+
+mainbox {
+  background-color:   @al;
+  children:           [inputbar, listview];
+}
+
+inputbar {
+  background-color:   @highlight;
+  children:           [prompt, entry];
+  padding:            0.25%;
+}
+
+entry {
+	background-color:   @al;
+  padding:            12px 3px;
+}
+
+prompt {
+	background-color:   @al;
+  padding:            12px;
+}
+
+listview {
+  lines:              8;
+  columns:            2;
+	background-color:   @al;
+  cycle:              false;
+  dynamic:            true;
+}
+
+element {
+  children:           [element-icon, element-text];
+  text-color:         @fg;
+  background-color:   @al;
+}
+
+element-icon {
+  padding:            10px 10px;
+  background-color:   inherit;
+  text-color:         inherit;
+  size:               1.5%;
+}
+
+element-text {
+  padding:            0.75%;
+  text-color:         inherit;
+}
+
+element selected {
+  background-color:   @selected;
+  text-color:         @fg;
+	border:							0% 0% 0% 0%;
+  border-radius:      0px;
+  border-color:       @bg;
+}
+
+element-text selected {
+  background-color:   @selected;
+  text-color:         @fg;
+	border:							0% 0% 0% 0%;
+  border-radius:      0px;
+  border-color:       @bg;
+}
