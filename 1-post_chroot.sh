@@ -205,7 +205,7 @@ else
 fi
 
 # Set root password
-echo $root_password | passwd
+# echo $root_password | passwd
 
 # Set hostname
 if [ -e "$configFileName" ] && [ ! -z "$hostname" ]; then

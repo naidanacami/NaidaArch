@@ -10,7 +10,7 @@ if [ -e "$configFileName" ]; then           # File exists
     while true; do
         # Do all the necessary vars exist?
         . $configFileName 
-        if [ -z "$username" ] || [ -z "$password" ] || [ -z "$root_password" ] || [ -z "$hostname" ] || [ -z "$volume_group_name" ] || [ -z "$crypt_device" ]; then 
+        if [ -z "$username" ] || [ -z "$password" ] || [ -z "$hostname" ] || [ -z "$volume_group_name" ] || [ -z "$crypt_device" ]; then 
             rm -f $configFileName
             break
         fi
@@ -61,16 +61,16 @@ echo "Please try again"
 done
 echo "password=\"$password\"" >> $configFileName
 
-# Get root passwd
-while true; do
-    read -p "Root password: " root_password
-    read -p "Verify root password: : " root_password2
-    if [ "$root_password" = "$root_password2" ] && [ "$root_password" != "" ]; then
-        break
-    fi
-echo "Please try again"
-done
-echo "root_password=\"$root_password\"" >> $configFileName
+# # Get root passwd
+# while true; do
+#     read -p "Root password: " root_password
+#     read -p "Verify root password: : " root_password2
+#     if [ "$root_password" = "$root_password2" ] && [ "$root_password" != "" ]; then
+#         break
+#     fi
+# echo "Please try again"
+# done
+# echo "root_password=\"$root_password\"" >> $configFileName
 
 # Set hostname
 read -p "Please name your machine: " hostname
