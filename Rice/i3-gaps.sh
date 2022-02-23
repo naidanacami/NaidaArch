@@ -52,8 +52,8 @@ if [[ $connected_monitors == 2 ]]; then                                         
     fi
     cp $script_dir/dotfiles/i3/config_dualmonitor ~/.config/i3/config
 
-    sed -i "s/set \$monitor_2 --monitor2--/set \$monitor_2 $secondary_monitor/" ~/.config/i3/config
-    sed -i "s/set \$monitor_1 --monitor1--/set \$monitor_1 $primary_monitor/" ~/.config/i3/config
+    sed -i "s/set \$m2 --monitor2--/set \$m2 $secondary_monitor/" ~/.config/i3/config
+    sed -i "s/set \$m1 --monitor1--/set \$m1 $primary_monitor/" ~/.config/i3/config
 
 
 elif [[ $connected_monitors == 1 ]]; then                                                               # If there are more than one monitor, primary does not need to be set
@@ -65,7 +65,7 @@ elif [[ $connected_monitors == 1 ]]; then                                       
         mkdir -p ~/.config/i3
     fi
     cp $script_dir/dotfiles/i3/config_singlemonitor ~/.config/i3/config
-    sed -i "s/set \$monitor_1 --monitor--/set \$monitor_1 $output/" ~/.config/i3/config		    # Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
+    sed -i "s/set \$m1 --monitor--/set \$m1 $output/" ~/.config/i3/config		    # Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
 
 elif [[ $connected_monitors > 2 ]]; then                                                            # No config will be made by this script (i am lazy)
     echo "WARNING: more than 2 monitors detected! You will have to make you own config"
