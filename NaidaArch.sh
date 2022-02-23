@@ -27,6 +27,7 @@ echo -ne "
               Successfully installed!              
 "
 
-echo "-------------------------------------------------------------------------"
-echo "--          Done - Please Eject Install Media and Reboot               --"
-echo "-------------------------------------------------------------------------"
+# echo "-------------------------------------------------------------------------"
+# echo "--          Done - Please Eject Install Media and Reboot               --"
+# echo "-------------------------------------------------------------------------"
+echo "Now arch-chroot /mnt and create a root password with passwd"
