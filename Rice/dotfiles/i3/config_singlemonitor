@@ -1,8 +1,10 @@
 # -----------------------------------------------------------------
 #                         Setting $mod key                         
 # -----------------------------------------------------------------
-set $mod Mod4			# "windows" key
-set $mod2 Mod1			# Alt key
+# "windows" key
+set $mod Mod4			
+# Alt key
+set $mod2 Mod1			
 
 
 
