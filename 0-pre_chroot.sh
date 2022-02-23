@@ -22,7 +22,8 @@ lsblk
 echo "Please enter disk to work on: (example /dev/sda)"
 read disk
 disk="${disk,,}"
-echo "Please enter desired root (/) directory size (in GiB): (example 50)"
+totalspace=( $(lsblk | grep $disk | awk '{print $4}') )
+echo "Please enter desired root (/) directory size (in GiB): (example 50) (total space on $disk: $totalspace)"
 read rootsize
 
 while true; do
