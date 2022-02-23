@@ -1,0 +1,77 @@
+configuration {
+  font:               "Cascadia Code Medium 10";
+  drun-display-format:            "{name}";
+}
+
+@import "colors.rasi"
+
+* {
+  border:             0;
+  margin:             0;
+  padding:            0;
+  spacing:            0;
+  width:              13%;
+  background-color:   @bg;
+  text-color:         @fg;
+}
+
+window {
+  transparency:       "real";
+  location:           center;
+}
+
+mainbox {
+  background-color:   @al;
+  children:           [inputbar, listview];
+}
+
+inputbar {
+  background-color:   @highlight;
+  children:           [prompt, entry];
+  padding:            0.25%;
+}
+
+entry {
+	background-color:   @al;
+  padding:            12px 3px;
+}
+
+prompt {
+	background-color:   @al;
+  padding:            12px;
+}
+
+listview {
+  margin:                         0% 0% 0% 0%;
+  lines:              6;
+	background-color:   @al;
+  cycle:              false;
+  dynamic:            true;
+}
+
+element {
+  children:           [element-text];
+  text-color:         @fg;
+  background-color:   @al;
+}
+
+element-text {
+  padding:            0.75%;
+  text-color:         inherit;
+}
+
+element selected {
+  background-color:   @selected;
+  text-color:         @fg;
+	border:							0% 0% 0% 0%;
+  border-radius:      0px;
+  border-color:       @bg;
+}
+
+element-text selected {
+  background-color:   @selected;
+  text-color:         @fg;
+	border:							0% 0% 0% 0%;
+  border-radius:      0px;
+  border-color:       @bg;
+}

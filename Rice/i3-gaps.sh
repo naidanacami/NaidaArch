@@ -4,10 +4,11 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Requirements install
 sudo pacman -S i3-gaps i3blocks i3status feh --noconfirm --needed       # i3 
-sudo pacman -S rofi  numlockx --noconfirm --needed       # Apps
+sudo pacman -S numlockx --noconfirm --needed       # Apps
 
 
 # i3 SETUP
+mkdir ~/.config/i3/
 declare -i connected_monitors=( $(xrandr | grep " connected " | tr -cd '\n' | wc -c) )
 
 if [[ $connected_monitors == 2 ]]; then                                                                 # Dual monitor. User must declare which is the primary monitor. If there is no primary monitor, too bad
@@ -70,14 +71,23 @@ elif [[ $connected_monitors > 2 ]]; then                                        
     echo "WARNING: more than 2 monitors detected! You will have to make you own config"
 fi
 
+
 # Wallpaper
 yay -S ttf-cascadia-code --needed --noconfirm
 mkdir -p ~/media/Wallpapers/
+cp $script_dir/dotfiles/i3/set_random_wallpaper.sh ~/.config/i3/
+
 
 # rofi
+sudo pacman -S rofi --noconfirm --needed
+mkdir ~/.config/rofi
+cp -r $script_dir/dotfiles/rofi ~/.config/rofi/
+
 
 # Lock
 yay -S betterlockscreen --noconfirm
+mkdir ~/.config/betterlockscreen
+cp $script_dir/dotfiles/betterlockscreen/run.sh ~/.config/betterlockscreen/
 
 
 # bar
