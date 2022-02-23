@@ -3,8 +3,8 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 
 # Requirements install
-sudo pacman -S i3-gaps i3blocks  i3lock i3status --noconfirm --needed       # i3
-sudo pacman -S rofi alacritty --noconfirm --needed       # Apps
+sudo pacman -S i3-gaps i3blocks i3status feh --noconfirm --needed       # i3 
+sudo pacman -S rofi  numlockx --noconfirm --needed       # Apps
 
 
 # i3 SETUP
@@ -69,3 +69,16 @@ elif [[ $connected_monitors == 1 ]]; then                                       
 elif [[ $connected_monitors > 2 ]]; then                                                            # No config will be made by this script (i am lazy)
     echo "WARNING: more than 2 monitors detected! You will have to make you own config"
 fi
+
+# Wallpaper
+yay -S ttf-cascadia-code --needed --noconfirm
+mkdir -p ~/media/Wallpapers/
+
+# rofi
+
+# Lock
+yay -S betterlockscreen --noconfirm
+
+
+# bar
+yay -S polybar --noconfirm
