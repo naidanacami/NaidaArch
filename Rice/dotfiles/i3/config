@@ -307,7 +307,7 @@ exec --no-startup-id nm-applet
 #                          Important binds                         
 # -----------------------------------------------------------------
 # start a terminal
-bindsym $mod+Return exec i3-sensible-
+bindsym $mod+Return exec alacritty
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
