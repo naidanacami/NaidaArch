@@ -80,8 +80,10 @@ cp $script_dir/dotfiles/i3/set_random_wallpaper.sh ~/.config/i3/
 
 # rofi
 sudo pacman -S rofi --noconfirm --needed
-mkdir ~/.config/rofi
-cp -r $script_dir/dotfiles/rofi ~/.config/rofi/
+cp -r $script_dir/dotfiles/rofi ~/.config/
+chmod +x ~/.config/rofi/custom_themes/powermenu.sh
+chmod +x ~/.config/rofi/custom_themes/run.sh
+chmod +x ~/.config/rofi/custom_themes/window.sh
 
 
 # Lock
