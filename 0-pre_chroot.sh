@@ -14,6 +14,34 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 
 echo -ne "
+-------------------------------------------------------------------------
+--                     select your disk to format                      --
+-------------------------------------------------------------------------
+"
+lsblk
+echo "Please enter disk to work on: (example /dev/sda)"
+read disk
+disk="${disk,,}"
+echo "Please enter desired root (/) directory size (in GiB): (example 50)"
+read rootsize
+
+while true; do
+    read -p "Please enter LUKS password: " luks_password
+    read -p "Verify LUKS password: " luks_password_recheck
+if [ "$luks_password" = "$luks_password_recheck" ] && [ "$luks_password" != "" ]; then
+    break
+fi
+echo "Please try again"
+done
+
+if [[ "${disk}" != *"/dev/"* ]]; then
+    disk="/dev/${disk}"
+fi
+echo "THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK"
+read -p "are you sure you want to continue (Y/N):" formatdisk
+
+
+echo -ne "
 -------------------------------------------------
    ▄   ██   ▄█ ██▄   ██   ██   █▄▄▄▄ ▄█▄     ▄  █ 
     █  █ █  ██ █  █  █ █  █ █  █  ▄▀ █▀ ▀▄  █   █ 
@@ -44,32 +72,6 @@ timedatectl set-ntp true
 # setfont ter-v22b
 
 
-echo -ne "
--------------------------------------------------------------------------
---                     select your disk to format                      --
--------------------------------------------------------------------------
-"
-lsblk
-echo "Please enter disk to work on: (example /dev/sda)"
-read disk
-disk="${disk,,}"
-echo "Please enter desired root (/) directory size (in GiB): (example 50)"
-read rootsize
-
-while true; do
-    read -p "Please enter LUKS password: " luks_password
-    read -p "Verify LUKS password: " luks_password_recheck
-if [ "$luks_password" = "$luks_password_recheck" ] && [ "$luks_password" != "" ]; then
-    break
-fi
-echo "Please try again"
-done
-
-if [[ "${disk}" != *"/dev/"* ]]; then
-    disk="/dev/${disk}"
-fi
-echo "THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK"
-read -p "are you sure you want to continue (Y/N):" formatdisk
 case $formatdisk in
     y|Y|yes|Yes|YES)
         echo "-------------------------------------------------------------------------"
