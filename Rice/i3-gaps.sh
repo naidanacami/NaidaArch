@@ -76,6 +76,7 @@ fi
 yay -S ttf-cascadia-code --needed --noconfirm
 mkdir -p ~/media/Wallpapers/
 cp $script_dir/dotfiles/i3/set_random_wallpaper.sh ~/.config/i3/
+chmod +x ~/.config/i3/set_random_wallpaper.sh
 
 
 # rofi
@@ -90,6 +91,7 @@ chmod +x ~/.config/rofi/custom_themes/window.sh
 yay -S betterlockscreen --noconfirm
 mkdir ~/.config/betterlockscreen
 cp $script_dir/dotfiles/betterlockscreen/run.sh ~/.config/betterlockscreen/
+chmod +x ~/.config/betterlockscreen/run.sh
 
 
 # bar
