@@ -96,3 +96,7 @@ chmod +x ~/.config/betterlockscreen/run.sh
 
 # bar
 yay -S polybar --noconfirm
+
+
+# Compositor
+sudo pacman -S picom
