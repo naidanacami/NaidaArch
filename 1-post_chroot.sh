@@ -23,6 +23,11 @@ if [[  $TOTALMEM -gt 8000000 ]]; then
 fi
 
 
+# Add sudo no password rights
+sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
+
+
 echo "-------------------------------------------------------------------------"
 echo "--                    Installing kernel and headers                    --"
 echo "-------------------------------------------------------------------------"
@@ -168,7 +173,7 @@ echo "--                       Installing Packages                           --"
 echo "-------------------------------------------------------------------------"
 
 while read p; do
-	pacman -S --noconfirm --needed $p
+	sudo pacman -S --noconfirm --needed $p
 done <${HOME}/NaidaArch/pkg-files/pacman-pkgs.txt
 
 echo "-------------------------------------------------------------------------"
@@ -227,8 +232,6 @@ EOF
 cp -R /root/NaidaArch /home/$username/
 chown -R $username: /home/$username/NaidaArch
 
-# Add sudo no password rights
-# sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers				# nopass
-sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers				# pass
+
 
 echo "ready for 'arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/NaidaArch/2-aur.sh'"

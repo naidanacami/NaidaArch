@@ -1,13 +1,13 @@
 echo "-------------------------------------------------------------------------"
 echo "--                         Cleaning Up / Misc                          --"
 echo "-------------------------------------------------------------------------"
-# Remove no password sudo rights granted previously
+# Remove no password sudo rights
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 # Add sudo rights
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-# Cleanup unused packages
-pacman -Rsc --noconfirm "$(pacman -Qqdt)"
 
 
 
