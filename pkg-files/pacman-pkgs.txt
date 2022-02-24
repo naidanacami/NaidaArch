@@ -26,7 +26,6 @@ pavucontrol
 volumeicon
 discord
 nano
-code
 neovim
 git
 python3
