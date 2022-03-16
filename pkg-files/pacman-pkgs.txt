@@ -1,8 +1,4 @@
-xorg-server
-xorg-apps
-xorg-xinit
-xorg-xrandr
-xorg-xset
+xorg
 xf86-video-intel
 mesa
 xf86-input-libinput
@@ -58,3 +54,4 @@ catfish
 veracrypt
 grub-customizer
 arandr
+keepassxc
