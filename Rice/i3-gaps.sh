@@ -7,6 +7,11 @@ sudo pacman -S i3-gaps i3blocks i3status feh --noconfirm --needed       # i3
 sudo pacman -S numlockx --noconfirm --needed       # Apps
 
 
+# fonts
+yay -S polybar adobe-source-code-pro-fonts ttf-mononoki --noconfirm
+
+
+
 # i3 SETUP
 mkdir ~/.config/i3/
 declare -i connected_monitors=( $(xrandr | grep " connected " | tr -cd '\n' | wc -c) )
@@ -95,7 +100,7 @@ chmod +x ~/.config/betterlockscreen/run.sh
 
 
 # bar
-yay -S polybar --noconfirm
+sudo pacman -S redshift awesome-terminal-fonts --needed --noconfirm
 
 
 # Compositor
