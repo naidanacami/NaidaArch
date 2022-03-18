@@ -1,10 +1,17 @@
 # -----------------------------------------------------------------
 #                         Setting $mod key                         
 # -----------------------------------------------------------------
-# "windows" key
-set $mod Mod4			
-# Alt key
-set $mod2 Mod1			
+set $mod Mod4		
+set $mod2 Mod1	
+
+
+
+
+# -----------------------------------------------------------------
+#                               Misc                              
+# -----------------------------------------------------------------
+# Enables mouse warping to focused window/workspace
+mouse_warping output
 
 
 
@@ -102,6 +109,10 @@ bindsym $mod+z mode "resize"
 # Monitors
 set $m1 --monitor1--
 
+# Next/Prev Monitors
+bindsym $mod+Control+Left workspace prev
+bindsym $mod+Control+Right workspace next
+
 # Assigning workspaces to monitor
 workspace $ws1 output $m1
 workspace $ws2 output $m1
@@ -124,7 +135,7 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10"
+
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -136,7 +147,7 @@ bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+
 
 # switch to workspace with numpad
 # (https://unix.stackexchange.com/questions/566566/binding-numpad-keys-on-i3-dont-work)
@@ -151,12 +162,14 @@ bindsym $mod+mod2+KP_8 workspace number $ws8
 bindsym $mod+mod2+KP_9 workspace number $ws9
 bindsym $mod+mod2+KP_0 workspace number $ws10
 
-mode "move" {
+mode "move_m1" {
+
+
 	# mod2 is the numlock key
 	# move to different workspace
 	# Main monitor
 	bindsym 1 move container to workspace number $ws1;mode "default"
-	bindsym 2 move container to workspace number $ws2;mode "default"
+	bindsym 2 move container to workspace number $ws2;mode default"
 	bindsym 3 move container to workspace number $ws3;mode "default"
 	bindsym 4 move container to workspace number $ws4;mode "default"
 	bindsym 5 move container to workspace number $ws5;mode "default"
@@ -177,11 +190,37 @@ mode "move" {
 	bindsym mod2+KP_9 move container to workspace number $ws9;mode "default"
 	bindsym mod2+KP_0 move container to workspace number $ws10;mode "default"
 
+	# Also switch to window
+	# Main monitor
+	bindsym $mod+1 move container to workspace number $ws1;workspace number $ws1;mode "default"
+	bindsym $mod+2 move container to workspace number $ws2;workspace number $ws2;mode default"
+	bindsym $mod+3 move container to workspace number $ws3;workspace number $ws3;mode "default"
+	bindsym $mod+4 move container to workspace number $ws4;workspace number $ws4;mode "default"
+	bindsym $mod+5 move container to workspace number $ws5;workspace number $ws5;mode "default"
+	bindsym $mod+6 move container to workspace number $ws6;workspace number $ws6;mode "default"
+	bindsym $mod+7 move container to workspace number $ws7;workspace number $ws7;mode "default"
+	bindsym $mod+8 move container to workspace number $ws8;workspace number $ws8;mode "default"
+	bindsym $mod+9 move container to workspace number $ws9;workspace number $ws9;mode "default"
+	bindsym $mod+0 move container to workspace number $ws10;workspace number $ws10;mode "default"
+	# With numpad
+	bindsym $mod+mod2+KP_1 move container to workspace number $ws1;workspace number $ws1;mode "default"
+	bindsym $mod+mod2+KP_2 move container to workspace number $ws2;workspace number $ws2;mode "default"
+	bindsym $mod+mod2+KP_3 move container to workspace number $ws3;workspace number $ws3;mode "default"
+	bindsym $mod+mod2+KP_4 move container to workspace number $ws4;workspace number $ws4;mode "default"
+	bindsym $mod+mod2+KP_5 move container to workspace number $ws5;workspace number $ws5;mode "default"
+	bindsym $mod+mod2+KP_6 move container to workspace number $ws6;workspace number $ws6;mode "default"
+	bindsym $mod+mod2+KP_7 move container to workspace number $ws7;workspace number $ws7;mode "default"
+	bindsym $mod+mod2+KP_8 move container to workspace number $ws8;workspace number $ws8;mode "default"
+	bindsym $mod+mod2+KP_9 move container to workspace number $ws9;workspace number $ws9;mode "default"
+	bindsym $mod+mod2+KP_0 move container to workspace number $ws10;workspace number $ws10;mode "default"
+
+
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
 
-bindsym $mod+Tab mode "move"
+
+bindsym $mod+Tab mode "move_m1"
 
 
 
@@ -210,17 +249,18 @@ font pango:monospace 8
 #                             Autostart                            
 # -----------------------------------------------------------------
 # Compositor
-exec --no-startup-id picom
+exec --no-startup-id picom -b
 
 # Wallpaper
 #exec_always --no-startup-id feh --bg-fill --randomize ~/media/Wallpapers --randomize ~/media/Wallpapers
-exec_always --no-startup-id ~/.config/i3/set_random_wallpaper.sh ~/media/Wallpapers/
+#exec_always --no-startup-id ~/.config/i3/wallpaper_scripts/get_random_wallpaper.sh ~/media/Wallpapers/
+exec_always --no-startup-id ~/.config/i3/wallpaper_scripts/get_random_wallpaper.sh ~/media/Wallpapers/ && ~/.config/i3/wallpaper_scripts/set_wallpaper.sh
 
 # Numlock
 exec_always --no-startup-id numlockx on
 
 # Lockscreen
-exec_always --no-startup-id betterlockscreen -u ~/media/Wallpapers
+#exec_always --no-startup-id betterlockscreen -u ~/media/Wallpapers
 
 
 # Start XDG autostart .desktop files using dex. See also
@@ -234,9 +274,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
-
+ 
 # Polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 
 
@@ -245,7 +285,7 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 #                          Important binds                         
 # -----------------------------------------------------------------
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec alacritty 
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -260,7 +300,8 @@ bindsym $mod+r exec --no-startup-id ~/.config/rofi/custom_themes/run.sh
 bindsym $mod2+Tab exec --no-startup-id ~/.config/rofi/custom_themes/window.sh
 
 # Lockscreen
-bindsym $mod2+space exec betterlockscreen -l blur
+#bindsym $mod2+space exec betterlockscreen -l blur
+bindsym $mod2+space exec betterlockscreen -l blur -- --time-str="%l:%M:%S %p"
 
 # Powermenu
 bindsym $mod+space exec ~/.config/rofi/custom_themes/powermenu.sh

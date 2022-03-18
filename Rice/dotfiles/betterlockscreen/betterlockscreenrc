@@ -14,17 +14,17 @@ wallpaper_cmd="feh --bg-fill"
 
 # Common colours
 clear=00000000
-white=CFCFCFff
-black=30303000
-grey=383838ff
-red=D0312Dff
+white=CFCFCF
+black=303030
+grey=383838
+red=D0312D
 
 
 # default theme
 loginbox=00000066
 loginshadow=$black
-locktext="Type password to unlock..."
-font="Cascadia Code Medium" 
+locktext="Papers, please."
+font="mononoki:style=bold" 
 ringcolor=$black
 insidecolor=$black
 separatorcolor=$black
