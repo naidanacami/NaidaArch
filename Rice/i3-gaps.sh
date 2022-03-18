@@ -8,7 +8,8 @@ sudo pacman -S numlockx --noconfirm --needed       # Apps
 
 
 # fonts
-yay -S polybar adobe-source-code-pro-fonts ttf-mononoki --noconfirm
+yay -S polybar adobe-source-code-pro-fonts ttf-mononoki ttf-font-awesome --noconfirm
+sudo pacman -S awesome-terminal-fonts --needed --noconfirm
 
 
 
@@ -100,7 +101,7 @@ chmod +x ~/.config/betterlockscreen/run.sh
 
 
 # bar
-sudo pacman -S redshift awesome-terminal-fonts --needed --noconfirm
+sudo pacman -S redshift --needed --noconfirm
 
 
 # Compositor
