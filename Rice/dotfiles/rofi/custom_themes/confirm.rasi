@@ -1,8 +1,8 @@
 @import "colors.rasi"
 
 * {
-    background-color:       @bg;
-    text-color:             @fg;
+    background-color:       @background;
+    text-color:             @foreground;
 	font:				 	"Cascadia Code Medium 10";
 }
 

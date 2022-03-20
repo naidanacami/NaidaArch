@@ -204,8 +204,6 @@ bindsym $mod2+mod2+KP_9 workspace number $ws19
 bindsym $mod2+mod2+KP_0 workspace number $ws20
 
 mode "move_m1" {
-	bindsym $mod+Tab mode "move_m2"
-
 	# mod2 is the numlock key
 	# move to different workspace
 	# Main monitor
@@ -259,6 +257,7 @@ mode "move_m1" {
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
+bindsym $mod+Tab mode "move_m1"
 
 mode "move_m2" {
 	# Secondary monitor
@@ -286,34 +285,34 @@ mode "move_m2" {
 
 	# Also switch to window
 	# Secondary monitor
-	bindsym $mod+1 move container to workspace number $ws11;workspace number $ws11;mode "default"
-	bindsym $mod+2 move container to workspace number $ws12;workspace number $ws12;mode "default"
-	bindsym $mod+3 move container to workspace number $ws13;workspace number $ws13;mode "default"
-	bindsym $mod+4 move container to workspace number $ws14;workspace number $ws14;mode "default"
-	bindsym $mod+5 move container to workspace number $ws15;workspace number $ws15;mode "default"
-	bindsym $mod+6 move container to workspace number $ws16;workspace number $ws16;mode "default"
-	bindsym $mod+7 move container to workspace number $ws17;workspace number $ws17;mode "default"
-	bindsym $mod+8 move container to workspace number $ws18;workspace number $ws18;mode "default"
-	bindsym $mod+9 move container to workspace number $ws19;workspace number $ws19;mode "default"
-	bindsym $mod+0 move container to workspace number $ws20;workspace number $ws20;mode "default"
+	bindsym $mod2+1 move container to workspace number $ws11;workspace number $ws11;mode "default"
+	bindsym $mod2+2 move container to workspace number $ws12;workspace number $ws12;mode "default"
+	bindsym $mod2+3 move container to workspace number $ws13;workspace number $ws13;mode "default"
+	bindsym $mod2+4 move container to workspace number $ws14;workspace number $ws14;mode "default"
+	bindsym $mod2+5 move container to workspace number $ws15;workspace number $ws15;mode "default"
+	bindsym $mod2+6 move container to workspace number $ws16;workspace number $ws16;mode "default"
+	bindsym $mod2+7 move container to workspace number $ws17;workspace number $ws17;mode "default"
+	bindsym $mod2+8 move container to workspace number $ws18;workspace number $ws18;mode "default"
+	bindsym $mod2+9 move container to workspace number $ws19;workspace number $ws19;mode "default"
+	bindsym $mod2+0 move container to workspace number $ws20;workspace number $ws20;mode "default"
 	# With numpad
-	bindsym $mod+mod2+KP_1 move container to workspace number $ws11;workspace number $ws11;mode "default"
-	bindsym $mod+mod2+KP_2 move container to workspace number $ws12;workspace number $ws12;mode "default"
-	bindsym $mod+mod2+KP_3 move container to workspace number $ws13;workspace number $ws13;mode "default"
-	bindsym $mod+mod2+KP_4 move container to workspace number $ws14;workspace number $ws14;mode "default"
-	bindsym $mod+mod2+KP_5 move container to workspace number $ws15;workspace number $ws15;mode "default"
-	bindsym $mod+mod2+KP_6 move container to workspace number $ws16;workspace number $ws16;mode "default"
-	bindsym $mod+mod2+KP_7 move container to workspace number $ws17;workspace number $ws17;mode "default"
-	bindsym $mod+mod2+KP_8 move container to workspace number $ws18;workspace number $ws18;mode "default"
-	bindsym $mod+mod2+KP_9 move container to workspace number $ws19;workspace number $ws19;mode "default"
-	bindsym $mod+mod2+KP_0 move container to workspace number $ws20;workspace number $ws20;mode "default"
+	bindsym $mod2+mod2+KP_1 move container to workspace number $ws11;workspace number $ws11;mode "default"
+	bindsym $mod2+mod2+KP_2 move container to workspace number $ws12;workspace number $ws12;mode "default"
+	bindsym $mod2+mod2+KP_3 move container to workspace number $ws13;workspace number $ws13;mode "default"
+	bindsym $mod2+mod2+KP_4 move container to workspace number $ws14;workspace number $ws14;mode "default"
+	bindsym $mod2+mod2+KP_5 move container to workspace number $ws15;workspace number $ws15;mode "default"
+	bindsym $mod2+mod2+KP_6 move container to workspace number $ws16;workspace number $ws16;mode "default"
+	bindsym $mod2+mod2+KP_7 move container to workspace number $ws17;workspace number $ws17;mode "default"
+	bindsym $mod2+mod2+KP_8 move container to workspace number $ws18;workspace number $ws18;mode "default"
+	bindsym $mod2+mod2+KP_9 move container to workspace number $ws19;workspace number $ws19;mode "default"
+	bindsym $mod2+mod2+KP_0 move container to workspace number $ws20;workspace number $ws20;mode "default"
 
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
+bindsym $mod2+Tab mode "move_m2"
 
-bindsym $mod+Tab mode "move_m1"
 
 
 
@@ -390,7 +389,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+r exec --no-startup-id ~/.config/rofi/custom_themes/run.sh
 
 # Alt+Tab
-bindsym $mod2+Tab exec --no-startup-id ~/.config/rofi/custom_themes/window.sh
+# bindsym $mod2+Tab exec --no-startup-id ~/.config/rofi/custom_themes/window.sh
 
 # Lockscreen
 #bindsym $mod2+space exec betterlockscreen -l blur

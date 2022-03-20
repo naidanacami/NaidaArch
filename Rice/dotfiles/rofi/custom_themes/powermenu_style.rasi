@@ -11,8 +11,8 @@ configuration {
   padding:            0;
   spacing:            0;
   width:              13%;
-  background-color:   @bg;
-  text-color:         @fg;
+  background-color:   @background;
+  text-color:         @foreground;
 }
 
 window {
@@ -21,7 +21,7 @@ window {
 }
 
 mainbox {
-  background-color:   @al;
+  background-color:   @black;
   children:           [inputbar, listview];
 }
 
@@ -32,27 +32,27 @@ inputbar {
 }
 
 entry {
-	background-color:   @al;
+	background-color:   @black;
   padding:            12px 3px;
 }
 
 prompt {
-	background-color:   @al;
+	background-color:   @black;
   padding:            12px;
 }
 
 listview {
   margin:                         0% 0% 0% 0%;
   lines:              6;
-	background-color:   @al;
+	background-color:   @black;
   cycle:              false;
   dynamic:            true;
 }
 
 element {
   children:           [element-text];
-  text-color:         @fg;
-  background-color:   @al;
+  text-color:         @foreground;
+  background-color:   @black;
 }
 
 element-text {
@@ -61,17 +61,17 @@ element-text {
 }
 
 element selected {
-  background-color:   @selected;
-  text-color:         @fg;
+  background-color:   @background_selected;
+  text-color:         @foreground;
 	border:							0% 0% 0% 0%;
   border-radius:      0px;
-  border-color:       @bg;
+  border-color:       @background;
 }
 
 element-text selected {
-  background-color:   @selected;
-  text-color:         @fg;
+  background-color:   @background_selected;
+  text-color:         @foreground;
 	border:							0% 0% 0% 0%;
   border-radius:      0px;
-  border-color:       @bg;
+  border-color:       @background;
 }

@@ -1,9 +1,9 @@
 /* colors */
 
 * {
-  al:  #00000000;
-  bg:  #303030;
-  fg:  #CFCFCF;
-  selected:  #686868;
+  black:  #00000000;
+  background:  #303030;
+  foreground:  #CFCFCF;
+  background_selected:  #686868;
 	highlight: #6D9E3Fff;
 }
