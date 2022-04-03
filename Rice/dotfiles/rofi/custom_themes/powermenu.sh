@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# highlight_colours=('#D370A3' '#6D9E3F' '#6095C5' '#B58858' '#3BA275' '#AC7BDE')
-# highlight="${highlight_colours[$(($RANDOM % ${#highlight_colours[@]}))]}ff"
-# sed -i "/highlight:/c\	highlight: $highlight;" $dir/colors.rasi
 
-lock="Lock"
-logout="Logout"
-sleep="Sleep"
-hibernate="Hibernate"
-poweroff="Shutdown"
-reboot="Reboot"
+lock=" Lock"
+logout=" Logout"
+sleep=" Sleep"
+hibernate=" Hibernate"
+poweroff=" Shutdown"
+reboot=" Reboot"
 
 # User confirmation
 user_confirmation() {

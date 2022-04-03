@@ -14,26 +14,24 @@ wallpaper_cmd="feh --bg-fill"
 
 # Common colours
 clear=00000000
-white=CFCFCF
-black=303030
-grey=383838
-red=D0312D
+white=d8dee9
+black=2E3440
+grey=4C566A
+red=BF616A
 
 
 # default theme
-loginbox=00000066
 loginshadow=$black
 locktext="Papers, please."
 font="mononoki:style=bold" 
 ringcolor=$black
 insidecolor=$black
 separatorcolor=$black
-ringvercolor=$white
+ringvercolor=3b4252
 insidevercolor=$black
-ringwrongcolor=$white
-insidewrongcolor=$red
+ringwrongcolor=$red
+insidewrongcolor=$black
 timecolor=$white
-time_format="%H:%M:%S"
 greetercolor=$white
 layoutcolor=$clear
 keyhlcolor=$grey
@@ -41,4 +39,3 @@ bshlcolor=$red
 verifcolor=$white
 wrongcolor=$red
 modifcolor=$red
-bgcolor=686868ff
