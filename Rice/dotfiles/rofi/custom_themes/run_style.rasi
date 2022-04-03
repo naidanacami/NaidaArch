@@ -12,7 +12,7 @@ configuration {
   margin:             0;
   padding:            0;
   spacing:            0;
-  width:              18%;
+  width:              36%;
   background-color:   @background;
   text-color:         @foreground;
 }
