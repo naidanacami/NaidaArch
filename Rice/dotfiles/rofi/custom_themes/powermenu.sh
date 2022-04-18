@@ -26,7 +26,7 @@ user_confirmation() {
 
 case $(echo -e "$lock\n$logout\n$sleep\n$hibernate\n$poweroff\n$reboot" | rofi -theme $dir/powermenu_style.rasi -p "Uptime: $(uptime -p | sed -e 's/up //g')" -dmenu) in
     $lock)
-        betterlockscreen -l blur
+        betterlockscreen -l blur -- --time-str="%I:%M:%S %p"
         ;;
         
     $logout)

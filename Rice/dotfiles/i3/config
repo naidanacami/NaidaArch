@@ -393,7 +393,7 @@ bindsym $mod+r exec --no-startup-id ~/.config/rofi/custom_themes/run.sh
 
 # Lockscreen
 #bindsym $mod2+space exec betterlockscreen -l blur
-bindsym $mod2+space exec betterlockscreen -l blur -- --time-str="%l:%M:%S %p"
+bindsym $mod2+space exec betterlockscreen -l blur -- --time-str="%I:%M:%S %p"
 
 # Powermenu
 bindsym $mod+space exec ~/.config/rofi/custom_themes/powermenu.sh
