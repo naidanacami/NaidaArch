@@ -142,7 +142,6 @@ sed -i 's/#.*HOOKS=(/placeholder/' /etc/mkinitcpio.conf																						# R
 sed -i '/HOOKS=(/c\HOOKS=(base udev autodetect keymap modconf block encrypt lvm2 filesystems keyboard fsck)' /etc/mkinitcpio.conf			# Edit hooks
 sed -i 's/placeholder/#    HOOKS=(/' /etc/mkinitcpio.conf																					# Replace placeholder with originals
 sleep 1
-mkinitcpio -p linux
 mkinitcpio -P
 
 # Install Grub																										# Install grub
