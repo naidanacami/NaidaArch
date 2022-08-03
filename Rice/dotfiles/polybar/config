@@ -16,40 +16,31 @@
 ;
 ;==========================================================
 
-[colors]
-background = #ee2F343F
-background-alt = #444
-foreground = #dfdfdf
-highlight = #ffb52a
-red = #bd2c40
-
+include-file = ~/.config/polybar/colors.ini
 
 ;==========================================================
 ;                           bar                           
 ;==========================================================
-
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 [bar/m1]
 pseudo-transparency = true
 enable-ipc = true
-monitor = VGA-1
+monitor = --monitor1--
 width = 100%
-height = 30
+height = 28
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
 fixed-center = true
 
-background = ${colors.background}
+background = 8a000000
 foreground = ${colors.foreground}
 
 line-size = 3
-line-color = #f00
+
 
 border-size = 0
 border-color = #00000000
-border-bottom-size = 2
-border-bottom-color = ${colors.highlight}
-
 
 padding-left = 0
 padding-right = 0
@@ -57,40 +48,28 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-;font-0 = "SourceCodePro-Regular:size=11.5"
 font-0 = "mononoki:style=bold:size=13;2"
 font-1 = "Font Awesome 6 Free Solid:style=Solid:size=12;2"
-;font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-;font-2 = siji:pixelsize=10;1
 
-modules-left = i3 xwindow
-;modules-center = date filesystem
-modules-center = date
-modules-right = sepvert network memory cpu sepvert eth wlan sepvert pulseaudio sepvert powermenu
+modules-left = i3 
+modules-center = xwindow
+modules-right =  eth wlan padding pulseaudio date powermenu
 
-tray-position = right
-tray-padding = 2
-;tray-background = #0063ff
+tray-position = none
 
 wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 [bar/s1]
 pseudo-transparency = true
 enable-ipc = true
-monitor = VGA-2
+monitor = --monitor2--
 width = 100%
-height = 30
+height = 28
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
@@ -104,8 +83,6 @@ line-color = #f00
 
 border-size = 0
 border-color = #00000000
-border-bottom-size = 2
-border-bottom-color = ${colors.highlight}
 
 
 padding-left = 0
@@ -114,29 +91,18 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-;font-0 = "SourceCodePro-Regular:size=11.5"
 font-0 = "mononoki:style=bold:size=13;2"
 font-1 = "Font Awesome 6 Free Solid:style=Solid:size=12;2"
-;font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-;font-2 = siji:pixelsize=10;1
 
 modules-left = i3 xwindow
 modules-center = date
-modules-right = powermenu
+modules-right = 
 
 tray-position = right
 tray-padding = 2
-;tray-background = #0063ff
+;tray-background = #BB000000
 
 wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -165,19 +131,19 @@ enable-scroll = true
 ; Only show workspaces on the same output as the bar
 pin-workspaces = true
 
-label-mode-padding = 1
-label-mode-foreground = #000
-label-mode-background = ${colors.highlight}
+label-mode-padding = 1.5
+label-mode-foreground = ${colors.foreground}
+label-mode-background = 88000000
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
-label-focused-background = ${colors.highlight}
-label-focused-underline= ${colors.highlight}
-label-focused-padding = 1
+label-focused-background = 9F000000
+label-focused-padding = 1.5
+label-focused-underline = ${colors.foreground}
 
 ; unfocused = Inactive workspace on any monitors
 label-unfocused = %index%
-label-unfocused-padding = 1
+label-unfocused-padding = 1.5
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
@@ -187,8 +153,8 @@ label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %index%
-label-urgent-background = ${colors.red}
-label-urgent-padding = 1
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1.5
 
 ; Separator in between workspaces
 ; label-separator = |
@@ -220,12 +186,12 @@ format-foreground = ${colors.foreground}
 #format-background = ${colors.background}
 
 time = %I:%M %p
-date-alt = %A, %e %B
+date-alt = %A, %B%e, %Y
 
 interval = 1.0
 format = <label>
 label = %date% %time%
-format-padding = 2
+format-padding = 0
 
 
 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -249,21 +215,20 @@ ramp-volume-2 = 
 
 
 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-[module/user]
-type = custom/script
-exec =  ~/.config/polybar/scripts/user.sh
-interval = 360
-click-left = ~/scripts/calendar.sh
-format-prefix = " "
-format = <label>
-;format-background = #EAEAEA
-format-foreground = #CAF1DE
-;format-padding = 2
+[module/redshift]
+; https://github.com/VineshReddy/polybar-redshift
+type = custom/ipc
+format-prefix = " "  
+hook-0 = source ~/.config/polybar/scripts/env.sh && ~/.config/polybar/scripts/redshift.sh
+hook-1 = source ~/.config/polybar/scripts/env.sh && ~/.config/polybar/scripts/redshift.sh toggle
+hook-2 = source ~/.config/polybar/scripts/env.sh && ~/.config/polybar/scripts/redshift.sh increase
+hook-3 = source ~/.config/polybar/scripts/env.sh && ~/.config/polybar/scripts/redshift.sh decrease
 
-; Available tokens:
-;   %output%
-; Default: %output%
-label = %output%
+click-left =  polybar-msg -p %pid% hook redshift 2
+scroll-up =  polybar-msg -p %pid% hook redshift 3
+scroll-down =  polybar-msg -p %pid% hook redshift 4
+initial = 1
+;interval=0.5
 
 
 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -271,7 +236,7 @@ label = %output%
 type = custom/text
 content = 
 
-content-background = ${colors.highlight}
+; content-background = ${colors.primary}
 content-foreground = ${colors.foreground}
 content-padding = 1
 click-left = ~/.config/rofi/custom_themes/powermenu.sh
@@ -376,18 +341,10 @@ label-disconnected = "%{A1:networkmanager_dmenu &:} Offline%{A}"
 
 
 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-[module/sepvert]
+[module/padding]
 type = custom/text
-content = |
+content = " "
 
 content-foreground = ${colors.background-alt}
 content-padding = 0
 
-
-;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-[module/sephor]
-type = custom/text
-content = -
-
-content-foreground = ${colors.background-alt}
-content-padding = 0

@@ -61,6 +61,16 @@ if [[ $connected_monitors == 2 ]]; then                                         
     sed -i "s/set \$m2 --monitor2--/set \$m2 $secondary_monitor/" ~/.config/i3/config
     sed -i "s/set \$m1 --monitor1--/set \$m1 $primary_monitor/" ~/.config/i3/config
 
+    ## ---- POLYBAR ---- ##
+    # Moves and edits polybar config
+    if [ ! -d "~/.config/polybar" ];then
+        mkdir -p ~/.config/polybar
+    fi
+    cp -r $script_dir/dotfiles/polybar/ ~/.config/polybar/
+    sed -i "s/monitor = --monitor1--/monitor = $primary_monitor/" ~/.config/polybar/config
+    sed -i "s/monitor = --monitor2--/monitor = $secondary_monitor/" ~/.config/polybar/config
+
+
 
 elif [[ $connected_monitors == 1 ]]; then                                                               # If there are more than one monitor, primary does not need to be set
     echo "ONE MONITOR DETECTED!"
@@ -72,6 +82,15 @@ elif [[ $connected_monitors == 1 ]]; then                                       
     fi
     cp $script_dir/dotfiles/i3/config_singlemonitor ~/.config/i3/config
     sed -i "s/set \$m1 --monitor--/set \$m1 $output/" ~/.config/i3/config		    # Replaces all commented hooks with a placeholder so the next command won't uncomment all of them
+
+    ## ---- POLYBAR ---- ##
+    # Moves and edits polybar config
+    if [ ! -d "~/.config/polybar" ];then
+        mkdir -p ~/.config/polybar
+    fi
+    cp -r $script_dir/dotfiles/polybar/ ~/.config/polybar/
+    sed -i "s/monitor = --monitor1--/monitor = $primary_monitor/" ~/.config/polybar/config
+    sed -i "s/polybar -r s1 &//" ~/.config/polybar/launch.sh
 
 elif [[ $connected_monitors > 2 ]]; then                                                            # No config will be made by this script (i am lazy)
     echo "WARNING: more than 2 monitors detected! You will have to make you own config"
